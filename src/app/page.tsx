@@ -1,6 +1,13 @@
 'use client'
 
-import { ChangeEvent, useCallback, useMemo, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { TextInput } from '@/components/TextInput'
 import { pickCostFromCsData } from '@/lib/util/pickCostFromCsData'
 import {
@@ -20,6 +27,7 @@ import { Radio } from '@/components/Radio'
 import { TextWithBadge } from '@/components/TextWithBadge'
 import { Tab } from '@/components/Tab'
 import { RadioGroup } from '@/components/RadioGroup'
+import { Textarea } from '@/components/Textarea'
 
 type CcCharacterClipboardData = {
   kind: 'character'
@@ -110,6 +118,13 @@ export default function Home() {
   )
   // const [memoOutputItems, setMemoOutputItems] = useState<(keyof Chara)[]>([])
 
+  // 追加上書き用のコーナー！
+  const [nameOverride, setNameOverride] = useState('')
+  const [memoOverride, setMemoOverride] = useState('')
+  const [statusOverride, setStatusOverride] = useState<CcCharacter['status']>(
+    []
+  )
+
   const [toastAlerts, setToastAlerts] = useState<ToastAlert[]>([])
   const toastTimerRef = useRef<number[]>([])
 
@@ -123,6 +138,27 @@ export default function Home() {
 
     toastTimerRef.current = [...toastTimerRef.current, timer]
   }
+
+  // 魔法名コピーのカレー化
+  const curryCopyMagicName = useCallback(
+    (i: number) => {
+      return () => {
+        const name = magic[i].name[nameOutputLine]
+
+        try {
+          navigator.clipboard.writeText(name)
+          addToastAlert('info', '魔法名をクリップボードにコピーしました')
+        } catch (e) {
+          console.error(e)
+          addToastAlert(
+            'error',
+            '魔法名のクリップボードへのコピーに失敗しました'
+          )
+        }
+      }
+    },
+    [magic, nameOutputLine]
+  )
 
   // ステータスとして出力したい魔法を選択
   const handleSelectStatusMagic = useCallback(
@@ -231,6 +267,21 @@ export default function Home() {
     selectedStatusMagic,
   ])
 
+  // ステータス更新
+  useEffect(() => {
+    setStatusOverride(statusOutputData)
+  }, [statusOutputData])
+
+  // ステータスの上書き
+  const handleChangeStatusOverride = useCallback(
+    (key: string, value: string | number, index: number) => {
+      setStatusOverride((override) => ({
+        ...override,
+      }))
+    },
+    []
+  )
+
   // 出力用パラメータのデータを生成
   const parameterOutputData: CcCharacter['params'] = useMemo(
     () =>
@@ -319,6 +370,11 @@ export default function Home() {
     ]
   }, [chara, magic, nameOutputLine, selectedMemoMagic, groupMagicOutput])
 
+  // キャラクターメモ更新
+  useEffect(() => {
+    setMemoOverride(memoOutputData.join('\n'))
+  }, [memoOutputData])
+
   // コマ出力ボタンをクリック
   const handleClickOutput = useCallback(() => {
     const ccChara: CcCharacter = {
@@ -406,6 +462,8 @@ export default function Home() {
           page: l.page || '',
         }))
         setMagic(magicList)
+
+        setNameOverride(charaData.covername)
       }
     } catch (e) {
       setIsLoadingCs(false)
@@ -503,7 +561,7 @@ export default function Home() {
         <table className="table table-xs border-y-2 border-base-200">
           <thead>
             <tr>
-              {/* <th className="text-center">出力</th> */}
+              <th className="w-28 text-center"></th>
               <th className="w-48">魔法名</th>
               <th className="w-20 text-center">タイプ</th>
               <th className="w-24 text-center">指定特技</th>
@@ -525,6 +583,14 @@ export default function Home() {
                     />
                   )}
                 </td> */}
+                <td>
+                  <button
+                    className="btn btn-xs btn-info"
+                    onClick={curryCopyMagicName(i)}
+                  >
+                    魔法名コピー
+                  </button>
+                </td>
                 <td>
                   {m.name.map((n, i) => (
                     <span key={i}>
@@ -802,95 +868,59 @@ export default function Home() {
         </div>
       </Tab>
 
-      {/* <Tab title="出力内容修正＆出力" className="mb-5"> */}
-      <Tab title="コマ出力" className="mb-5">
+      <Tab title="出力内容修正＆出力" className="mb-5">
+        {/* <Tab title="コマ出力" className="mb-5"> */}
         {/* {magic.length ? (
-          <> */}
-        {/* <div className="text-sm mb-1">
+          <>
+            <div className="text-sm mb-1">
               以下の内容でココフォリア用のコマを出力します
             </div>
-            <div className='badge badge-sm'>名前</div>
-            <div>{chara.covername}</div>
-            <div className='badge badge-sm'>キャラクターメモ</div>
-            <div>{memoOutputData}</div>
-            <div className='badge badge-sm'>参照URL</div>
-            <div>{memoOutputData}</div>
-            <div className='badge badge-sm'>ステータス</div>
-            <div>{chara.covername}</div>
-            <div className='badge badge-sm'>パラメータ</div>
-            <div>{chara.covername}</div>
-
-            魔法名 キャラクターメモ ステータス パラメータ
-            書き換えができるといいかも？ */}
-        {/* ステータス
-            <div className="md:flex items-stretch gap-3 justify-start mb-4">
-              <div className="w-full md:w-96 bg-base-100 rounded-sm p-3">
-                <table className="table table-sm border-y-2 border-base-200">
-                  <thead>
-                    <tr>
-                      <th>ラベル</th>
-                      <th>現在値</th>
-                      <th>最大値</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {statusOutputData.map((d, i) => (
-                      <tr key={i}>
-                        <td>{d.label}</td>
-                        <td>{d.value}</td>
-                        <td>{d.max}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="w-full md:w-60 bg-base-content/[85%] rounded-sm p-3">
-                <div className="flex flex-wrap gap-[3px] max-w-[210px]">
-                  {statusOutputData.map(
-                    (d, i) =>
-                      i < 8 && (
-                        <StatusChip
-                          key={i}
-                          label={d.label}
-                          value={d.value}
-                          max={d.max}
-                        />
-                      )
-                  )}
+            <div className="badge badge-sm">名前</div>
+            <div>
+              <TextInput
+                value={nameOverride}
+                onChange={setNameOverride}
+                className="input input-bordered w-1/2"
+              />
+            </div>
+            <div className="badge badge-sm">キャラクターメモ</div>
+            <div>
+              <Textarea
+                value={memoOverride}
+                onChange={setMemoOverride}
+                className="textarea textarea-bordered w-1/2 h-[250px]"
+              />
+            </div>
+            <div className="badge badge-sm">参照URL</div>
+            <div className="input input-bordered w-1/2">{csUrl}</div>
+            <div className="badge badge-sm">ステータス</div>
+            <div>
+              {statusOutputData.map((s, i) => (
+                <div key={i}>
+                  <div className="join">
+                    <TextInput
+                      value={s.label}
+                      onChange={() => {}}
+                      className="input input-bordered join-item"
+                    />
+                    <TextInput
+                      value={s.value}
+                      onChange={() => {}}
+                      className="input input-bordered join-item"
+                    />
+                    <TextInput
+                      value={s.max}
+                      onChange={() => {}}
+                      className="input input-bordered join-item"
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-            パラメータ
-            <div className="w-full md:w-96 bg-base-100 rounded-sm p-3">
-              <table className="table table-sm border-y-2 border-base-200">
-                <thead>
-                  <tr>
-                    <th>ラベル</th>
-                    <th>現在値</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {parameterOutputData.map((d, i) => (
-                    <tr key={i}>
-                      <td>{d.label}</td>
-                      <td>{d.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            キャラクターメモ
-            <div className="w-full md:w-80 bg-base-content/[85%] text-base-100 text-xs rounded-sm p-3">
-              {memoOutputData.map((n, i) => (
-                <span key={i}>
-                  {n}
-                  <br />
-                </span>
               ))}
-            </div> */}
-        {/* </> */}
-        {/* ) : (
+            </div>
+            <div className="badge badge-sm">パラメータ</div>
+            <div>{chara.covername}</div>
+          </>
+        ) : (
           <div className="text-sm mb-4">
             キャラクターシート読み込み後に表示されます
           </div>
