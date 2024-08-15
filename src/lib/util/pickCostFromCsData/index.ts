@@ -18,14 +18,15 @@ export const pickCostFromCsData = (
   chara: Chara
 ): MagicCost | string => {
   // コストに関して
-  // 指定特技の分野の魔素2
-  // 自分の領域の魔素1
+  // 指定特技の分野の魔素2 → 指定(特技)
+  // 自分の領域の魔素1 → (自)(領域)
   // 全X
   // 力3
   // 置き換えしたいね
   // 指定特技→skillから領域を推測
   // 自分の領域→base.domainから取得
   // 最後の一文字は必ず数字かXとなる
+  //
 
   if (!library.cost) {
     return ''

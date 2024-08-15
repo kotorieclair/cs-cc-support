@@ -1,4 +1,11 @@
-import { memo, ReactNode } from 'react'
+import {
+  memo,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+  createContext,
+} from 'react'
 
 type Props = {
   title: string
@@ -19,5 +26,76 @@ const Tab = memo(function Tab({ title, className, children }: Props) {
   )
 })
 
-export { Tab }
+const TabContentContext = createContext(false)
+
+const TabColContent = memo(function TabColContent({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const [isPreview, setIsPreview] = useState(false)
+
+  const activateSettingsTab = useCallback(() => {
+    setIsPreview(false)
+  }, [])
+  const activatePreviewTab = useCallback(() => {
+    setIsPreview(true)
+  }, [])
+
+  return (
+    <TabContentContext.Provider value={isPreview}>
+      <div className="tabs tabs-sm tabs-boxed md:hidden mb-4 bg-white/50 grid-cols-2">
+        <div
+          onClick={activateSettingsTab}
+          className={`tab ${!isPreview ? 'tab-active' : ''}`}
+        >
+          設定
+        </div>
+        <div
+          onClick={activatePreviewTab}
+          className={`tab ${isPreview ? 'tab-active' : ''}`}
+        >
+          プレビュー
+        </div>
+      </div>
+      <div className="block md:flex items-start">{children}</div>
+    </TabContentContext.Provider>
+  )
+})
+
+const TabColLeft = memo(function TabColLeft({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const isPreview = useContext(TabContentContext)
+
+  return (
+    <div
+      className={`${isPreview ? 'max-md:hidden' : ''} flex-none w-full max-w-[360px]`}
+    >
+      {children}
+    </div>
+  )
+})
+
+const TabColDivider = memo(function TabColDivider() {
+  return <div className="divider divider-horizontal max-md:hidden"></div>
+})
+
+const TabColRight = memo(function TabColRight({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const isPreview = useContext(TabContentContext)
+
+  return (
+    <div className={`${!isPreview ? 'max-md:hidden' : ''} flex-1`}>
+      {children}
+    </div>
+  )
+})
+
+export { Tab, TabColContent, TabColLeft, TabColDivider, TabColRight }
 export type { Props as TabProps }

@@ -116,11 +116,30 @@ export const SKILLS_ALL = [
   ...SKILLS_DREAM,
   ...SKILLS_DARKNESS,
 ]
+export const SKILLS_WITH_ROW_NAME: {
+  [domain: CSDataLearnedDomain]: { [row: CSDataLearnedRow]: string }
+} = {
+  name0: SKILLS_STAR.reduce((acc, s, i) => ({ ...acc, [`row${i}`]: s }), {}),
+  name1: SKILLS_BEAST.reduce((acc, s, i) => ({ ...acc, [`row${i}`]: s }), {}),
+  name2: SKILLS_POWER.reduce((acc, s, i) => ({ ...acc, [`row${i}`]: s }), {}),
+  name3: SKILLS_SONG.reduce((acc, s, i) => ({ ...acc, [`row${i}`]: s }), {}),
+  name4: SKILLS_DREAM.reduce((acc, s, i) => ({ ...acc, [`row${i}`]: s }), {}),
+  name5: SKILLS_DARKNESS.reduce(
+    (acc, s, i) => ({ ...acc, [`row${i}`]: s }),
+    {}
+  ),
+}
 
 export type CsDataBase = {
   [key: string]: string
 } & {
   domain: CsDomainKey
+}
+export type CSDataLearnedRow = `row${number}`
+export type CSDataLearnedDomain = `name${number}`
+export type CSDataLearned = {
+  id: `skills.${CSDataLearnedRow}.${CSDataLearnedDomain}` | null
+  judge: null
 }
 export type CsDataLibrary = {
   [key: string]: string | null
@@ -132,6 +151,7 @@ export type CsDataLibrary = {
 }
 export type CsData = {
   base: CsDataBase
+  learned: CSDataLearned[]
   library: CsDataLibrary[]
   soul: {
     skill: string
@@ -146,6 +166,7 @@ export type Chara = {
   level: string
   domain: DomainType
   soulSkill: string
+  skills: string[]
   attack: number
   defense: number
   source: number

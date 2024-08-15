@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+@tailwind components;
+
+@layer components {
+  .material-symbols-rounded {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 500,
+      'GRAD' 0,
+      'opsz' 20;
+  }
+
+  .info:before {
+    @apply material-symbols-rounded;
+    --tw-content: '\e88e';
+    font-family: 'Material Symbols Rounded';
+    content: '\e88e';
+    font-size: 1.6em;
+  }
+
+  .success:before {
+    @apply material-symbols-rounded;
+    --tw-content: '\e8dc';
+    font-family: 'Material Symbols Rounded';
+    content: '\e8dc';
+    font-size: 1.6em;
+  }
+
+  .warning:before {
+    @apply material-symbols-rounded;
+    --tw-content: '\e002';
+    font-family: 'Material Symbols Rounded';
+    content: '\e002';
+    font-size: 1.6em;
+  }
+
+  .error:before {
+    @apply material-symbols-rounded;
+    --tw-content: '\e000';
+    font-family: 'Material Symbols Rounded';
+    content: '\e000';
+    font-size: 1.6em;
+  }
+}
