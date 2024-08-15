@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import './icons.css'
+// import './icons.css'
 import { antiqua } from './font'
 
 export const metadata: Metadata = {
