@@ -1,113 +1,257 @@
-import Image from "next/image";
+'use client'
+
+import { useCallback, useState } from 'react'
+import Image from 'next/image'
+import {
+  TextInput,
+  ToastAlerts,
+  useToastAlerts,
+} from '@kotorieclair/ktrecl-ui-tools'
+import {
+  Innocent,
+  Spooky,
+  CsData,
+  URL_BASE,
+  CSDataLearnedSkillType,
+  CSDataLearnedRow,
+  SKILLS_WITH_ROW_NAME,
+  OUTPUT_TYPE,
+  OutputType,
+} from './constants'
+import { getSpecialityFromCsSkills } from '@/lib/getSpecialityFromCsSkills'
+import { Step2Section } from '@/components/Step2Section'
+import { Step3Section } from '@/components/Step3Section'
+import { StepHeading } from '@/components/StepHeading'
+import { cherrybomb } from './fonts'
+import { ToastAlertContext } from './context'
+
+// 出力したいもの
+// イノセント：元気、眠気、MP、（メモ：才能、弱点、特技）
+// スプーキー：魔力、MP、（パラメータ：攻撃力とか）（メモ：リング、体、魔法）（チャパレ：オバケ判定）
 
 export default function Home() {
+  const [csUrl, setCsUrl] = useState('')
+  const [isLoadingCs, setIsLoadingCs] = useState(false)
+  const [innocent, setInnocent] = useState<Innocent>({} as Innocent)
+  const [spooky, setSpooky] = useState<Spooky>({} as Spooky)
+
+  const [step, setStep] = useState(1)
+  const [outputType, setOutputType] = useState<OutputType>(OUTPUT_TYPE.NONE)
+  const [useMp, setUseMp] = useState(false)
+
+  const { toastAlerts, addToastAlert } = useToastAlerts()
+
+  // 出力対象をイノセントに設定
+  const handleSelectInnocent = useCallback(() => {
+    setStep(3)
+    setOutputType(OUTPUT_TYPE.INNOCENT)
+  }, [])
+
+  // 出力対象をスプーキーに設定
+  const handleSelectSpooky = useCallback(() => {
+    setStep(3)
+    setOutputType(OUTPUT_TYPE.SPOOKY)
+  }, [])
+
+  const handleClickBackToStep2 = useCallback(() => {
+    setStep(2)
+    setOutputType(OUTPUT_TYPE.NONE)
+  }, [])
+
+  // MPを採用するか否か
+  const toggleUseMp = useCallback(() => {
+    setUseMp((prevVal) => !prevVal)
+  }, [])
+
+  // CS読み込み処理
+  const loadCs = useCallback(async () => {
+    try {
+      let data: CsData
+      if (
+        process.env.NEXT_PUBLIC_USE_SAMPLE === 'true' &&
+        process.env.NEXT_PUBLIC_SAMPLE_DATA
+      ) {
+        const loaded = await require(process.env.NEXT_PUBLIC_SAMPLE_DATA)
+        data = loaded.data
+      } else {
+        const { href, searchParams } = new URL(csUrl)
+        console.log(href, searchParams.get('key'))
+
+        if (!href.startsWith(URL_BASE)) {
+          throw new Error('指定されたURLに問題があります。')
+        }
+
+        const key = searchParams.get('key')
+
+        const res = await fetch(`/api/${key}`, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        data = await res.json()
+      }
+
+      if (data) {
+        // イノセント
+        const innoSkills = data.learned.reduce<string[]>((acc, skill) => {
+          if (skill.id) {
+            const split = skill.id.split('.')
+            const skillType = split[2] as CSDataLearnedSkillType
+            const row = split[1] as CSDataLearnedRow
+            const skillName = SKILLS_WITH_ROW_NAME[skillType][row]
+
+            return [...acc, skillName]
+          }
+          return acc
+        }, [])
+        const inno: Innocent = {
+          name: data.base.innocent.name ?? '',
+          age: data.base.innocent.age ?? '',
+          memo: data.base.innocent.memo ?? '',
+          sex: data.base.innocent.sex ?? '',
+          talent: data.base.innocent.tarrent ?? '',
+          weakpoint: data.base.innocent.weekpoint ?? '',
+          skills: innoSkills,
+          speciality: getSpecialityFromCsSkills(data.skills) ?? '',
+        }
+        setInnocent(inno)
+
+        // スプーキー
+        const spMagic = [
+          data.ability.magic1 ?? '',
+          data.ability.magic2 ?? '',
+          data.ability.magic3 ?? '',
+        ]
+        const sp: Spooky = {
+          name: data.base.spooky.name ?? '',
+          attack: data.base.spooky.attack
+            ? parseInt(data.base.spooky.attack, 10)
+            : 0,
+          defense: data.base.spooky.defense
+            ? parseInt(data.base.spooky.defense, 10)
+            : 0,
+          help: data.base.spooky.help ? parseInt(data.base.spooky.help, 10) : 0,
+          interrupt: data.base.spooky.interrupt
+            ? parseInt(data.base.spooky.interrupt, 10)
+            : 0,
+          mana: data.base.spooky.magic
+            ? parseInt(data.base.spooky.magic, 10)
+            : 0,
+          memo: data.base.spooky.memo ?? '',
+          ring: data.base.spooky.ring ?? '',
+          url: data.base.spooky.url ?? '',
+          weakpoint: data.base.spooky.weekpoint ?? '',
+          magic: spMagic,
+          body: {
+            body: data.ability.body ?? '',
+            wear1: data.ability.wear1 ?? '',
+            wear2: data.ability.wear2 ?? '',
+          },
+        }
+        setSpooky(sp)
+
+        setIsLoadingCs(false)
+        setStep(2)
+      }
+    } catch (e) {
+      setIsLoadingCs(false)
+      console.error(e)
+      addToastAlert('error', 'キャラクターシートの読み込みに失敗しました')
+    }
+  }, [csUrl, addToastAlert])
+
+  // CS読み込み中のローディング処理
+  const handleClickLoadCs = useCallback(() => {
+    setIsLoadingCs(true)
+    setStep(1)
+    loadCs()
+  }, [loadCs])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <ToastAlertContext.Provider value={{ addToastAlert }}>
+      <div className="flex flex-col gap-6 h-full">
+        <div className="flex-none bg-box p-4">
+          <StepHeading num={1}>キャラクターシートを読み込む！</StepHeading>
+          <div className="flex gap-2 mt-4 mx-2">
+            <TextInput
+              value={csUrl}
+              onChange={setCsUrl}
+              placeholder="キャラクターシート倉庫URL"
+              className="input input-bordered input-sm w-full"
             />
-          </a>
+            <button
+              onClick={
+                csUrl || process.env.NEXT_PUBLIC_USE_SAMPLE === 'true'
+                  ? handleClickLoadCs
+                  : () => {}
+              }
+              className={`btn btn-success btn-sm msi msi-load gap-1 ${
+                !csUrl ? 'cursor-not-allowed' : ''
+              }`}
+            >
+              CS読み込み
+            </button>
+          </div>
         </div>
+
+        {isLoadingCs && (
+          <div className="h-full flex items-center justify-center opacity-30">
+            <div className="flex flex-col gap-4 animate-pulse">
+              <Image
+                src="/spooky_loading.svg"
+                width={150}
+                height={150}
+                alt=""
+              />
+              <div className={`${cherrybomb.className} text-center text-3xl`}>
+                loading...
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 bg-box overflow-auto scrollable-overlay animate-slide-in">
+              <div className="p-4 pb-0 scrollable-overlay-content">
+                <Step2Section
+                  innocent={innocent}
+                  spooky={spooky}
+                  onSelectInnocent={handleSelectInnocent}
+                  onSelectSpooky={handleSelectSpooky}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className="flex-1 flex flex-col overflow-hidden animate-slide-in">
+            <div className="mb-2">
+              <button
+                onClick={handleClickBackToStep2}
+                className="btn btn-sm btn-warning msi msi-arrow-back"
+              >
+                選択し直す
+              </button>
+            </div>
+
+            <div className="bg-box overflow-auto scrollable-overlay">
+              <div className="p-4 pb-0 scrollable-overlay-content">
+                <Step3Section
+                  innocent={innocent}
+                  spooky={spooky}
+                  csUrl={csUrl}
+                  outputType={outputType}
+                  onClickBackToStep2={handleClickBackToStep2}
+                  useMp={useMp}
+                  onToggleUseMp={toggleUseMp}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <ToastAlerts alerts={toastAlerts} />
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    </ToastAlertContext.Provider>
+  )
 }
