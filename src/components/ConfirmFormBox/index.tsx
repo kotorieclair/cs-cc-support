@@ -18,12 +18,12 @@ const ConfirmFormBox = memo(function ConfirmFormBox({
   title,
   titleColor,
   children,
-  className,
+  className = '',
 }: Props) {
   return (
     <div className={className}>
       <div
-        className={`badge badge-md ${TITLE_COLOR_CLASSNAMES[titleColor]} mb-2`}
+        className={`badge badge-sm md:badge-md ${TITLE_COLOR_CLASSNAMES[titleColor]} mb-2`}
       >
         {title}
       </div>

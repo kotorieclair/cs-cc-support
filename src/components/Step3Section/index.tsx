@@ -1,12 +1,5 @@
+import { memo } from 'react'
 import { Innocent, OUTPUT_TYPE, OutputType, Spooky } from '@/app/constants'
-import {
-  CcCharacter,
-  CcCharacterStatus,
-  RadioCheckInput,
-  StatusParamsField,
-  TextWithBadge,
-} from '@kotorieclair/ktrecl-ui-tools'
-import { memo, useState } from 'react'
 import { InnocentSection } from './InnocentSection'
 import { SpookySection } from './SpookySection'
 import { StepHeading } from '../StepHeading'
@@ -16,7 +9,6 @@ type Props = {
   spooky: Spooky
   csUrl: string
   outputType: OutputType
-  onClickBackToStep2: () => void
   useMp: boolean
   onToggleUseMp: () => void
 }
@@ -26,14 +18,13 @@ const Step3Section = memo(function Step3Section({
   spooky,
   csUrl,
   outputType,
-  onClickBackToStep2,
   useMp,
   onToggleUseMp,
 }: Props) {
   return (
     <>
       <StepHeading num={3}>データを確認してコマを出力する！</StepHeading>
-      <div className="mt-8 px-2">
+      <div className="mt-6 md:mt-8 md:px-2">
         {outputType === OUTPUT_TYPE.INNOCENT && (
           <InnocentSection
             innocent={innocent}

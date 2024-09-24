@@ -10,9 +10,9 @@ import {
   TextWithBadge,
 } from '@kotorieclair/ktrecl-ui-tools'
 import { Innocent, SKILLS_ADULT, SKILLS_BAD } from '@/app/constants'
+import { ToastAlertContext } from '@/app/context'
 import { ConfirmFormBox } from '../ConfirmFormBox'
 import { CharaSummary } from '../CharaSummary'
-import { ToastAlertContext } from '@/app/context'
 
 type Props = {
   innocent: Innocent
@@ -134,35 +134,33 @@ const InnocentSection = memo(function InnocentSection({
   return (
     <>
       <CharaSummary className="">
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
-          <TextWithBadge badgeText="名前" badgeColor="accent">
-            {innocent.name}
-          </TextWithBadge>
-          <TextWithBadge badgeText="年齢" badgeColor="accent">
-            {innocent.age}
-          </TextWithBadge>
-          <TextWithBadge badgeText="性別" badgeColor="accent">
-            {innocent.sex}
-          </TextWithBadge>
-          <TextWithBadge badgeText="才能" badgeColor="accent">
-            {innocent.talent}
-          </TextWithBadge>
-          <TextWithBadge badgeText="弱点" badgeColor="accent">
-            {innocent.weakpoint}
-          </TextWithBadge>
-          <TextWithBadge badgeText="特技" badgeColor="accent">
-            {innocent.skills.map((s) => `《${s}》`)}
-          </TextWithBadge>
-          <TextWithBadge badgeText="得意分野" badgeColor="accent">
-            {innocent.speciality}
-          </TextWithBadge>
-        </div>
+        <TextWithBadge badgeText="名前" badgeColor="accent">
+          {innocent.name}
+        </TextWithBadge>
+        <TextWithBadge badgeText="年齢" badgeColor="accent">
+          {innocent.age}
+        </TextWithBadge>
+        <TextWithBadge badgeText="性別" badgeColor="accent">
+          {innocent.sex}
+        </TextWithBadge>
+        <TextWithBadge badgeText="才能" badgeColor="accent">
+          {innocent.talent}
+        </TextWithBadge>
+        <TextWithBadge badgeText="弱点" badgeColor="accent">
+          {innocent.weakpoint}
+        </TextWithBadge>
+        <TextWithBadge badgeText="特技" badgeColor="accent">
+          {innocent.skills.map((s) => `《${s}》`)}
+        </TextWithBadge>
+        <TextWithBadge badgeText="得意分野" badgeColor="accent">
+          {innocent.speciality}
+        </TextWithBadge>
       </CharaSummary>
 
-      <div className="grid grid-cols-1 gap-4 max-w-[500px] mt-6">
+      <div className="grid grid-cols-1 gap-3 md:gap-4 md:max-w-[500px] mt-4 md:mt-6">
         <ConfirmFormBox titleColor="primary" title="設定">
           <div className="flex gap-1 items-center">
-            <div className="text-base">MPを採用する：</div>
+            <div className="text-sm md:text-base">MPを採用する：</div>
             <RadioCheckInput
               type="toggle"
               value="mp"
@@ -206,10 +204,10 @@ const InnocentSection = memo(function InnocentSection({
         </ConfirmFormBox>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5 md:mt-8">
         <button
           onClick={handleClickOutput}
-          className="btn btn-lg btn-success px-10 text-base msi msi-output"
+          className="btn btn-md md:btn-lg btn-success max-md:w-full md:px-10 md:text-base msi msi-output"
         >
           イノセント用のコマを出力する！
         </button>

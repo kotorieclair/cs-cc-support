@@ -9,11 +9,11 @@ type Props = {
 const StepHeading = memo(function StepHeading({
   num,
   children,
-  className,
+  className = '',
 }: Props) {
   return (
     <h2
-      className={`msi msi-number-${num} text-lg flex items-center before:pr-1 ${className}`}
+      className={`msi msi-number-${num} text-sm md:text-lg flex items-center max-md:justify-center before:pr-1 ${className}`}
     >
       {children}
     </h2>

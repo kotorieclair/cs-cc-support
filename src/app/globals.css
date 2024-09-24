@@ -8,64 +8,86 @@
   @apply rounded-2xl;
 }
 
-.scrollable-overlay {
-  position: relative;
-}
-.scrollable-overlay::after {
-  content: '';
-  display: block;
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  height: 50px;
-  width: 100%;
-  background-image: linear-gradient(0deg, oklch(var(--n)), transparent);
-  z-index: 10;
-}
-.scrollable-overlay-content {
-  position: relative;
-  z-index: 1;
-}
-
-.text-border-2 {
-  text-shadow:
-    oklch(var(--n)) 3px 3px 2px,
-    oklch(var(--n)) -3px -3px 2px,
-    oklch(var(--n)) 3px 0px 2px,
-    oklch(var(--n)) -3px 0px 2px,
-    oklch(var(--n)) 0px 3px 2px,
-    oklch(var(--n)) 0px -3px 2px,
-    oklch(var(--n)) 3px -3px 2px,
-    oklch(var(--n)) -3px 3px 2px,
-    rgba(255, 255, 255, 50%) 3px 3px 4px,
-    rgba(255, 255, 255, 50%) -3px -3px 4px,
-    rgba(255, 255, 255, 50%) 3px 0px 4px,
-    rgba(255, 255, 255, 50%) -3px 0px 4px,
-    rgba(255, 255, 255, 50%) 0px 3px 4px,
-    rgba(255, 255, 255, 50%) 0px -3px 4px,
-    rgba(255, 255, 255, 50%) 3px -3px 4px,
-    rgba(255, 255, 255, 50%) -3px 3px 4px;
-}
-.text-border-3 {
-  text-shadow:
-    oklch(var(--n)) 4px 4px 2px,
-    oklch(var(--n)) -4px -4px 2px,
-    oklch(var(--n)) 4px 0px 2px,
-    oklch(var(--n)) -4px 0px 2px,
-    oklch(var(--n)) 0px 4px 2px,
-    oklch(var(--n)) 0px -4px 2px,
-    oklch(var(--n)) 4px -4px 2px,
-    oklch(var(--n)) -4px 4px 2px,
-    rgba(255, 255, 255, 50%) 4px 4px 5px,
-    rgba(255, 255, 255, 50%) -4px -4px 5px,
-    rgba(255, 255, 255, 50%) 4px 0px 5px,
-    rgba(255, 255, 255, 50%) -4px 0px 5px,
-    rgba(255, 255, 255, 50%) 0px 4px 5px,
-    rgba(255, 255, 255, 50%) 0px -4px 5px,
-    rgba(255, 255, 255, 50%) 4px -4px 5px,
-    rgba(255, 255, 255, 50%) -4px 4px 5px;
+@layer components {
+  .scrollable-overlay {
+    position: relative;
+  }
+  .scrollable-overlay::after {
+    content: '';
+    display: block;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    background-image: linear-gradient(0deg, oklch(var(--n)), transparent);
+    z-index: 10;
+  }
+  .scrollable-overlay-content {
+    position: relative;
+    z-index: 1;
+  }
 }
 
+@layer components {
+  .text-border-1 {
+    text-shadow:
+      oklch(var(--n)) 2px 2px 1px,
+      oklch(var(--n)) -2px -2px 1px,
+      oklch(var(--n)) 2px 0px 1px,
+      oklch(var(--n)) -2px 0px 1px,
+      oklch(var(--n)) 0px 2px 1px,
+      oklch(var(--n)) 0px -2px 1px,
+      oklch(var(--n)) 2px -2px 1px,
+      oklch(var(--n)) -2px 2px 1px,
+      rgba(255, 255, 255, 50%) 2px 2px 3px,
+      rgba(255, 255, 255, 50%) -2px -2px 3px,
+      rgba(255, 255, 255, 50%) 2px 0px 3px,
+      rgba(255, 255, 255, 50%) -2px 0px 3px,
+      rgba(255, 255, 255, 50%) 0px 2px 3px,
+      rgba(255, 255, 255, 50%) 0px -2px 3px,
+      rgba(255, 255, 255, 50%) 2px -2px 3px,
+      rgba(255, 255, 255, 50%) -2px 2px 3px;
+  }
+  .text-border-2 {
+    text-shadow:
+      oklch(var(--n)) 3px 3px 2px,
+      oklch(var(--n)) -3px -3px 2px,
+      oklch(var(--n)) 3px 0px 2px,
+      oklch(var(--n)) -3px 0px 2px,
+      oklch(var(--n)) 0px 3px 2px,
+      oklch(var(--n)) 0px -3px 2px,
+      oklch(var(--n)) 3px -3px 2px,
+      oklch(var(--n)) -3px 3px 2px,
+      rgba(255, 255, 255, 50%) 3px 3px 4px,
+      rgba(255, 255, 255, 50%) -3px -3px 4px,
+      rgba(255, 255, 255, 50%) 3px 0px 4px,
+      rgba(255, 255, 255, 50%) -3px 0px 4px,
+      rgba(255, 255, 255, 50%) 0px 3px 4px,
+      rgba(255, 255, 255, 50%) 0px -3px 4px,
+      rgba(255, 255, 255, 50%) 3px -3px 4px,
+      rgba(255, 255, 255, 50%) -3px 3px 4px;
+  }
+  .text-border-3 {
+    text-shadow:
+      oklch(var(--n)) 4px 4px 2px,
+      oklch(var(--n)) -4px -4px 2px,
+      oklch(var(--n)) 4px 0px 2px,
+      oklch(var(--n)) -4px 0px 2px,
+      oklch(var(--n)) 0px 4px 2px,
+      oklch(var(--n)) 0px -4px 2px,
+      oklch(var(--n)) 4px -4px 2px,
+      oklch(var(--n)) -4px 4px 2px,
+      rgba(255, 255, 255, 50%) 4px 4px 5px,
+      rgba(255, 255, 255, 50%) -4px -4px 5px,
+      rgba(255, 255, 255, 50%) 4px 0px 5px,
+      rgba(255, 255, 255, 50%) -4px 0px 5px,
+      rgba(255, 255, 255, 50%) 0px 4px 5px,
+      rgba(255, 255, 255, 50%) 0px -4px 5px,
+      rgba(255, 255, 255, 50%) 4px -4px 5px,
+      rgba(255, 255, 255, 50%) -4px 4px 5px;
+  }
+}
 .animate-slide-in {
   animation: slide-in 0.5s forwards;
 }

@@ -9,10 +9,10 @@ import {
   TextInput,
   TextWithBadge,
 } from '@kotorieclair/ktrecl-ui-tools'
-import { SKILLS_ADULT, SKILLS_BAD, Spooky } from '@/app/constants'
+import { Spooky } from '@/app/constants'
+import { ToastAlertContext } from '@/app/context'
 import { ConfirmFormBox } from '../ConfirmFormBox'
 import { CharaSummary } from '../CharaSummary'
-import { ToastAlertContext } from '@/app/context'
 
 type Props = {
   spooky: Spooky
@@ -135,47 +135,45 @@ const SpookySection = memo(function SpookySection({
   return (
     <>
       <CharaSummary>
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
-          <TextWithBadge badgeText="名前" badgeColor="accent">
-            {spooky.name}
-          </TextWithBadge>
-          <TextWithBadge badgeText="リング" badgeColor="accent">
-            {spooky.ring}
-          </TextWithBadge>
-          <TextWithBadge badgeText="弱点" badgeColor="accent">
-            《{spooky.weakpoint}》
-          </TextWithBadge>
-          <TextWithBadge badgeText="攻撃力" badgeColor="accent">
-            {spooky.attack}
-          </TextWithBadge>
-          <TextWithBadge badgeText="防御力" badgeColor="accent">
-            {spooky.defense}
-          </TextWithBadge>
-          <TextWithBadge badgeText="お助け力" badgeColor="accent">
-            {spooky.help}
-          </TextWithBadge>
-          <TextWithBadge badgeText="お邪魔力" badgeColor="accent">
-            {spooky.interrupt}
-          </TextWithBadge>
-          <TextWithBadge badgeText="魔法" badgeColor="accent">
-            {spooky.magic.map((m) => (m ? `「${m}」` : '')).join('')}
-          </TextWithBadge>
-          <TextWithBadge badgeText="からだ" badgeColor="accent">
-            {spooky.body.body}
-          </TextWithBadge>
-          <TextWithBadge badgeText="衣装1" badgeColor="accent">
-            {spooky.body.wear1}
-          </TextWithBadge>
-          <TextWithBadge badgeText="衣装2" badgeColor="accent">
-            {spooky.body.wear2}
-          </TextWithBadge>
-        </div>
+        <TextWithBadge badgeText="名前" badgeColor="accent">
+          {spooky.name}
+        </TextWithBadge>
+        <TextWithBadge badgeText="リング" badgeColor="accent">
+          {spooky.ring}
+        </TextWithBadge>
+        <TextWithBadge badgeText="弱点" badgeColor="accent">
+          《{spooky.weakpoint}》
+        </TextWithBadge>
+        <TextWithBadge badgeText="攻撃力" badgeColor="accent">
+          {spooky.attack}
+        </TextWithBadge>
+        <TextWithBadge badgeText="防御力" badgeColor="accent">
+          {spooky.defense}
+        </TextWithBadge>
+        <TextWithBadge badgeText="お助け力" badgeColor="accent">
+          {spooky.help}
+        </TextWithBadge>
+        <TextWithBadge badgeText="お邪魔力" badgeColor="accent">
+          {spooky.interrupt}
+        </TextWithBadge>
+        <TextWithBadge badgeText="魔法" badgeColor="accent">
+          {spooky.magic.map((m) => (m ? `「${m}」` : '')).join('')}
+        </TextWithBadge>
+        <TextWithBadge badgeText="からだ" badgeColor="accent">
+          {spooky.body.body}
+        </TextWithBadge>
+        <TextWithBadge badgeText="衣装1" badgeColor="accent">
+          {spooky.body.wear1}
+        </TextWithBadge>
+        <TextWithBadge badgeText="衣装2" badgeColor="accent">
+          {spooky.body.wear2}
+        </TextWithBadge>
       </CharaSummary>
 
-      <div className="grid grid-cols-1 gap-4 max-w-[500px] mt-6">
+      <div className="grid grid-cols-1 gap-3 md:gap-4 md:max-w-[500px] mt-4 md:mt-6">
         <ConfirmFormBox titleColor="secondary" title="設定">
           <div className="flex gap-1 items-center">
-            <div className="text-base">MPを採用する：</div>
+            <div className="text-sm md:text-base">MPを採用する：</div>
             <RadioCheckInput
               type="toggle"
               value="mp"
@@ -227,10 +225,10 @@ const SpookySection = memo(function SpookySection({
         </ConfirmFormBox>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5 md:mt-8">
         <button
           onClick={handleClickOutput}
-          className="btn btn-lg btn-success px-10 text-base msi msi-output"
+          className="btn btn-md md:btn-lg btn-success max-md:w-full md:px-10 md:text-base msi msi-output"
         >
           スプーキー用のコマを出力する！
         </button>

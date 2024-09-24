@@ -136,7 +136,7 @@ export default function Home() {
             ? parseInt(data.base.spooky.magic, 10)
             : 0,
           memo: data.base.spooky.memo ?? '',
-          ring: data.base.spooky.ring ?? '',
+          ring: data.base.spooky.ring ? `${data.base.spooky.ring}族` : '',
           url: data.base.spooky.url ?? '',
           weakpoint: data.base.spooky.weekpoint ?? '',
           magic: spMagic,
@@ -167,41 +167,58 @@ export default function Home() {
 
   return (
     <ToastAlertContext.Provider value={{ addToastAlert }}>
-      <div className="flex flex-col gap-6 h-full">
-        <div className="flex-none bg-box p-4">
+      <div className="md:flex flex-col gap-6 md:h-full">
+        <div className="flex-none bg-box px-3 py-4 md:p-4">
           <StepHeading num={1}>キャラクターシートを読み込む！</StepHeading>
-          <div className="flex gap-2 mt-4 mx-2">
+          <div className="md:flex gap-2 mt-4 md:mx-2">
             <TextInput
               value={csUrl}
               onChange={setCsUrl}
               placeholder="キャラクターシート倉庫URL"
               className="input input-bordered input-sm w-full"
             />
-            <button
-              onClick={
-                csUrl || process.env.NEXT_PUBLIC_USE_SAMPLE === 'true'
-                  ? handleClickLoadCs
-                  : () => {}
-              }
-              className={`btn btn-success btn-sm msi msi-load gap-1 ${
-                !csUrl ? 'cursor-not-allowed' : ''
-              }`}
-            >
-              CS読み込み
-            </button>
+            <div className="flex-none max-md:mt-3 text-center">
+              <button
+                onClick={
+                  csUrl || process.env.NEXT_PUBLIC_USE_SAMPLE === 'true'
+                    ? handleClickLoadCs
+                    : () => {}
+                }
+                className={`btn btn-success btn-sm msi msi-load gap-1 ${
+                  !csUrl ? 'cursor-not-allowed' : ''
+                }`}
+              >
+                CS読み込み
+              </button>
+            </div>
           </div>
         </div>
 
+        {!isLoadingCs && step === 1 && (
+          <div className="h-full flex items-center justify-center opacity-30 py-6">
+            <Image
+              src="/spooky_loading.svg"
+              width={150}
+              height={150}
+              alt=""
+              className="w-[100px] h-[100px] md:w-[150px] md:h-[150px]"
+            />
+          </div>
+        )}
+
         {isLoadingCs && (
-          <div className="h-full flex items-center justify-center opacity-30">
-            <div className="flex flex-col gap-4 animate-pulse">
+          <div className="h-full md:flex items-center justify-center opacity-30 max-md:mt-6">
+            <div className="flex flex-col items-center gap-4 animate-pulse">
               <Image
                 src="/spooky_loading.svg"
                 width={150}
                 height={150}
                 alt=""
+                className="w-[100px] h-[100px] md:w-[150px] md:h-[150px]"
               />
-              <div className={`${cherrybomb.className} text-center text-3xl`}>
+              <div
+                className={`${cherrybomb.className} text-center text-2xl md:text-3xl`}
+              >
                 loading...
               </div>
             </div>
@@ -209,9 +226,9 @@ export default function Home() {
         )}
 
         {step === 2 && (
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="flex-1 bg-box overflow-auto scrollable-overlay animate-slide-in">
-              <div className="p-4 pb-0 scrollable-overlay-content">
+          <div className="flex-1 md:flex flex-col overflow-hidden max-md:mt-3">
+            <div className="flex-1 bg-box md:overflow-auto md:scrollable-overlay animate-slide-in">
+              <div className="px-3 py-4 md:p-4 md:pb-0 md:scrollable-overlay-content">
                 <Step2Section
                   innocent={innocent}
                   spooky={spooky}
@@ -224,24 +241,23 @@ export default function Home() {
         )}
 
         {step === 3 && (
-          <div className="flex-1 flex flex-col overflow-hidden animate-slide-in">
-            <div className="mb-2">
+          <div className="flex-1 md:flex flex-col overflow-hidden animate-slide-in max-md:mt-3">
+            <div className="mb-1.5 md:mb-2">
               <button
                 onClick={handleClickBackToStep2}
-                className="btn btn-sm btn-warning msi msi-arrow-back"
+                className="btn btn-xs md:btn-sm btn-warning msi msi-arrow-back"
               >
-                選択し直す
+                選択しなおす
               </button>
             </div>
 
-            <div className="bg-box overflow-auto scrollable-overlay">
-              <div className="p-4 pb-0 scrollable-overlay-content">
+            <div className="bg-box md:overflow-auto md:scrollable-overlay">
+              <div className="px-3 py-4 md:p-4 md:pb-0 md:scrollable-overlay-content">
                 <Step3Section
                   innocent={innocent}
                   spooky={spooky}
                   csUrl={csUrl}
                   outputType={outputType}
-                  onClickBackToStep2={handleClickBackToStep2}
                   useMp={useMp}
                   onToggleUseMp={toggleUseMp}
                 />

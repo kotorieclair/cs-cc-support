@@ -10,7 +10,7 @@
     "ktrecl": "npm install @kotorieclair/ktrecl-ui-tools@latest"
   },
   "dependencies": {
-    "@kotorieclair/ktrecl-ui-tools": "^0.0.8",
+    "@kotorieclair/ktrecl-ui-tools": "^0.0.10",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18"
