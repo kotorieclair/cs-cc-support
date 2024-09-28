@@ -9,6 +9,8 @@ const TEST_CHARA: Chara = {
   defense: 3,
   source: 3,
   domain: DOMAIN_TYPES.DARKNESS,
+  soulSkill: '魂特技',
+  skills: ['衝撃', '牙', '別れ', '情熱', '腐敗'],
 }
 
 test('correctly pick cost from CS data', () => {

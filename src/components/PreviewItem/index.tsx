@@ -11,7 +11,7 @@ const PreviewItem = memo(function PreviewItem({
   title,
   children,
   showPreview,
-  className,
+  className = '',
 }: Props) {
   return (
     <div className={className}>

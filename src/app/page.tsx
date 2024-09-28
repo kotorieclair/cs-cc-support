@@ -1,8 +1,32 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { TextInput } from '@/components/TextInput'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  CcCharacter,
+  CcCharacterClipboardData,
+  FakeInput,
+  StatusParamsField,
+  TextareaInput,
+  TextInput,
+  TextWithBadge,
+  ToastAlerts,
+  useToastAlerts,
+} from '@kotorieclair/ktrecl-ui-tools'
 import { pickCostFromCsData } from '@/lib/util/pickCostFromCsData'
+import { generateMagicStatusLabel } from '@/lib/util/generateMagicStatusLabel'
+import { StatusChip } from '@/components/StatusChip'
+import {
+  Tab,
+  TabColContent,
+  TabColDivider,
+  TabColLeft,
+  TabColRight,
+} from '@/components/Tab'
+import { RadioGroup } from '@/components/RadioGroup'
+import { CheckboxGroup } from '@/components/CheckboxGroup'
+import { SelectTable } from '@/components/SelectTable'
+import { PreviewItem } from '@/components/PreviewItem'
+import { ConfirmFormBox } from '@/components/ConfirmFormBox'
 import {
   Chara,
   CsData,
@@ -16,56 +40,7 @@ import {
   SKILLS_WITH_ROW_NAME,
   URL_BASE,
 } from './constants'
-import { StatusChip } from '@/components/StatusChip'
-import { generateMagicStatusLabel } from '@/lib/util/generateMagicStatusLabel'
-import { TextWithBadge } from '@/components/TextWithBadge'
-import {
-  Tab,
-  TabColContent,
-  TabColDivider,
-  TabColLeft,
-  TabColRight,
-} from '@/components/Tab'
-import { RadioGroup } from '@/components/RadioGroup'
-import { Textarea } from '@/components/Textarea'
-import { NumberInput } from '@/components/NumberInput'
-import { CheckboxGroup } from '@/components/CheckboxGroup'
-import { SelectTable } from '@/components/SelectTable'
-import { PreviewItem } from '@/components/PreviewItem'
-import { ConfirmFormBox } from '@/components/ConfirmFormBox'
 import { antiqua } from './font'
-
-type CcCharacterClipboardData = {
-  kind: 'character'
-  data: Partial<CcCharacter>
-}
-
-type CcCharacter = {
-  name: string
-  memo: string
-  // initiative: number
-  externalUrl: string
-  status: {
-    label: string
-    value: number
-    max: number
-  }[]
-  params: { label: string; value: string }[]
-  // iconUrl: string | null // [!]
-  // faces: { iconUrl: string | null; label: string }[] // [!]
-  // x: number // [!]
-  // y: number // [!]
-  // angle: number
-  // width: number
-  // height: number
-  // active: boolean // [!]
-  // secret: boolean
-  // invisible: boolean
-  // hideStatus: boolean
-  // color: string
-  commands: string
-  // owner: string | null
-}
 
 const MAGIC_OUTPUT_LINE_1 = 0
 const MAGIC_OUTPUT_LINE_2 = 1
@@ -79,19 +54,6 @@ const RADIO_COMMON_FALSE = 0
 const PALETTE_OUTPUT_SOUL_SKILL = 'soulSkill'
 const PALETTE_OUTPUT_SKILLS = 'skills'
 const PALETTE_OUTPUT_SKILL_NAMES = 'skillNames'
-
-type AlertType = 'info' | 'success' | 'warning' | 'error'
-type ToastAlert = {
-  id: string
-  type: AlertType
-  message: string
-}
-const ALERT_TYPE_CLASSNAMES: { [key in AlertType]: string } = {
-  info: 'alert-info',
-  success: 'alert-success',
-  warning: 'alert-warning',
-  error: 'alert-error',
-}
 
 // キャラコマをオンマウスしたときに、蔵書を表示したほうがよいかな？
 // 攻撃力、防御力、根源力はパラメータに
@@ -149,19 +111,7 @@ export default function Home() {
   const [paletteOverride, setPaletteOverride] =
     useState<CcCharacter['commands']>('')
 
-  const [toastAlerts, setToastAlerts] = useState<ToastAlert[]>([])
-  const toastTimerRef = useRef<number[]>([])
-
-  const addToastAlert = (type: AlertType, message: string) => {
-    const id = Date.now().toString()
-    setToastAlerts((alerts) => [...alerts, { id, type, message }])
-
-    const timer = window.setTimeout(() => {
-      setToastAlerts((alerts) => alerts.filter((alert) => id !== alert.id))
-    }, 3000)
-
-    toastTimerRef.current = [...toastTimerRef.current, timer]
-  }
+  const { toastAlerts, addToastAlert } = useToastAlerts()
 
   // 魔法名コピーのカレー化
   const curryCopyMagicName = useCallback(
@@ -181,7 +131,7 @@ export default function Home() {
         }
       }
     },
-    [magic, magicOutputLineNum]
+    [magic, magicOutputLineNum, addToastAlert]
   )
 
   // 出力として選択できる魔法一覧
@@ -198,7 +148,7 @@ export default function Home() {
   )
 
   // 出力用ステータスのデータを生成
-  const statusOutputData: CcCharacter['status'] = useMemo(() => {
+  const statusOutputData = useMemo<CcCharacter['status']>(() => {
     const adsData =
       adsOutputDest === ADS_OUTPUT_DEST_STATUS
         ? [
@@ -252,20 +202,8 @@ export default function Home() {
     setStatusOverride(statusOutputData)
   }, [statusOutputData])
 
-  // 出力用ステータスの上書き
-  const curryChangeStatusOverride = useCallback(
-    (key: string, index: number) => {
-      return (value: string | number) => {
-        setStatusOverride((override) =>
-          override.map((o, i) => (i === index ? { ...o, [key]: value } : o))
-        )
-      }
-    },
-    []
-  )
-
   // 出力用パラメータのデータを生成
-  const parameterOutputData: CcCharacter['params'] = useMemo(
+  const parameterOutputData = useMemo<CcCharacter['params']>(
     () =>
       adsOutputDest === ADS_OUTPUT_DEST_PARAM
         ? [
@@ -291,20 +229,8 @@ export default function Home() {
     setParameterOverride(parameterOutputData)
   }, [parameterOutputData])
 
-  // 出力用パラメータの上書き
-  const curryChangeParameterOverride = useCallback(
-    (key: string, index: number) => {
-      return (value: string) => {
-        setParameterOverride((override) =>
-          override.map((o, i) => (i === index ? { ...o, [key]: value } : o))
-        )
-      }
-    },
-    []
-  )
-
   // 出力用キャラクターメモのデータを作成
-  const memoOutputData: string[] = useMemo(() => {
+  const memoOutputData = useMemo<string[]>(() => {
     const { summon, spell, permanent } = memoOutputMagic.reduce(
       (acc, i) => {
         const mgc = magic[i]
@@ -360,7 +286,7 @@ export default function Home() {
       [chara.level ? `第${chara.level}階梯` : '', chara.career].join('　'),
       [
         chara.domain ? `領域：${chara.domain}` : '',
-        chara.soulSkill ? `魂の特技：${chara.soulSkill}` : '',
+        chara.soulSkill ? `魂の特技：《${chara.soulSkill}》` : '',
       ].join('　'),
       [
         chara.attack ? `攻撃力：${chara.attack}` : '',
@@ -386,7 +312,7 @@ export default function Home() {
   }, [memoOutputData])
 
   // 出力用チャットパレットのデータを作成
-  const paletteOutputData: string[] = useMemo(() => {
+  const paletteOutputData = useMemo<string[]>(() => {
     const skillsOutput = paletteOutputSettings.includes(PALETTE_OUTPUT_SKILLS)
       ? chara.skills?.map((s) => `2D6>=5 （判定：${s}）`) ?? []
       : []
@@ -421,6 +347,7 @@ export default function Home() {
     magicOutputLineNum,
   ])
 
+  // チャットパレット更新
   useEffect(() => {
     setPaletteOverride(paletteOutputData.join('\n'))
   }, [paletteOutputData])
@@ -458,6 +385,7 @@ export default function Home() {
     parameterOverride,
     memoOverride,
     paletteOverride,
+    addToastAlert,
   ])
 
   // CS読み込み処理
@@ -472,7 +400,6 @@ export default function Home() {
         data = loaded.data
       } else {
         const { href, searchParams } = new URL(csUrl)
-        console.log(href, searchParams.get('key'))
 
         if (!href.startsWith(URL_BASE)) {
           throw new Error('指定されたURLに問題があります。')
@@ -543,7 +470,7 @@ export default function Home() {
       console.error(e)
       addToastAlert('error', 'キャラクターシートの読み込みに失敗しました')
     }
-  }, [csUrl])
+  }, [csUrl, addToastAlert])
 
   // CS読み込み中のローディング処理
   const handleClickLoadCs = useCallback(() => {
@@ -580,51 +507,37 @@ export default function Home() {
       </div>
       <div className="flex flex-wrap gap-2 items-center justify-center mb-6">
         {(chara.level || chara.career) && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="階梯/経歴/機関"
-            text={
-              <span className="flex gap-1 items-center">
-                <span>{chara.level ? `第${chara.level}階梯` : ''}</span>
-                <span>{chara.career}</span>
-              </span>
-            }
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="階梯/経歴/機関">
+            <span className="flex gap-1 items-center">
+              <span>{chara.level ? `第${chara.level}階梯` : ''}</span>
+              <span>{chara.career}</span>
+            </span>
+          </TextWithBadge>
         )}
         {chara.domain && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="領域"
-            text={chara.domain}
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="領域">
+            {chara.domain}
+          </TextWithBadge>
         )}
         {chara.soulSkill && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="魂の特技"
-            text={chara.soulSkill}
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="魂の特技">
+            {chara.soulSkill}
+          </TextWithBadge>
         )}
         {chara.attack && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="攻撃力"
-            text={chara.attack}
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="攻撃力">
+            {chara.attack}
+          </TextWithBadge>
         )}
         {chara.defense && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="防御力"
-            text={chara.defense}
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="防御力">
+            {chara.defense}
+          </TextWithBadge>
         )}
         {chara.source && (
-          <TextWithBadge
-            badgeColor="neutral"
-            badgeText="根源力"
-            text={chara.source}
-          />
+          <TextWithBadge badgeColor="neutral" badgeText="根源力">
+            {chara.source}
+          </TextWithBadge>
         )}
       </div>
 
@@ -963,69 +876,37 @@ export default function Home() {
                 />
               </ConfirmFormBox>
               <ConfirmFormBox title="キャラクターメモ">
-                <Textarea
+                <TextareaInput
                   value={memoOverride}
                   onChange={setMemoOverride}
                   className="textarea textarea-sm textarea-bordered w-full h-[250px] align-bottom"
                 />
               </ConfirmFormBox>
-              <ConfirmFormBox title="参照URL">
-                <div className="input input-sm input-bordered w-full whitespace-nowrap overflow-x-auto input-disabled">
-                  {csUrl}
-                </div>
+              <ConfirmFormBox title="参照URL（※編集不可）">
+                <FakeInput className="input-sm">{csUrl}</FakeInput>
               </ConfirmFormBox>
               <ConfirmFormBox title="ステータス">
-                <div className="grid grid-cols-1 gap-0.5">
-                  <div className="join">
-                    <div className="text-xs join-item w-1/3 pl-2">ラベル</div>
-                    <div className="text-xs join-item w-1/3 pl-2">現在値</div>
-                    <div className="text-xs join-item w-1/3 pl-2">最大値</div>
-                  </div>
-                  {statusOverride.map((s, i) => (
-                    <div key={i} className="join">
-                      <TextInput
-                        value={s.label}
-                        onChange={curryChangeStatusOverride('label', i)}
-                        className="input input-sm input-bordered join-item w-1/3"
-                      />
-                      <NumberInput
-                        value={s.value}
-                        onChange={curryChangeStatusOverride('value', i)}
-                        className="input input-sm input-bordered join-item w-1/3"
-                      />
-                      <NumberInput
-                        value={s.max}
-                        onChange={curryChangeStatusOverride('max', i)}
-                        className="input input-sm input-bordered join-item w-1/3"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <StatusParamsField
+                  type="status"
+                  size="sm"
+                  values={statusOverride}
+                  onChange={setStatusOverride}
+                />
               </ConfirmFormBox>
               <ConfirmFormBox title="パラメータ">
-                <div className="grid grid-cols-1 gap-0.5">
-                  <div className="join">
-                    <div className="text-xs join-item w-1/2 pl-2">ラベル</div>
-                    <div className="text-xs join-item w-1/2 pl-2">値</div>
-                  </div>
-                  {parameterOverride.map((p, i) => (
-                    <div key={i} className="join">
-                      <TextInput
-                        value={p.label}
-                        onChange={curryChangeParameterOverride('label', i)}
-                        className="input input-sm input-bordered join-item w-1/2"
-                      />
-                      <TextInput
-                        value={p.value}
-                        onChange={curryChangeParameterOverride('value', i)}
-                        className="input input-sm input-bordered join-item w-1/2"
-                      />
-                    </div>
-                  ))}
-                </div>
+                {parameterOverride.length ? (
+                  <StatusParamsField
+                    type="params"
+                    size="sm"
+                    values={parameterOverride}
+                    onChange={setParameterOverride}
+                  />
+                ) : (
+                  <div className="text-sm">設定なし</div>
+                )}
               </ConfirmFormBox>
               <ConfirmFormBox title="チャットパレット">
-                <Textarea
+                <TextareaInput
                   value={paletteOverride}
                   onChange={setPaletteOverride}
                   className="textarea textarea-sm textarea-bordered w-full h-[250px] align-bottom"
@@ -1050,16 +931,7 @@ export default function Home() {
         </div>
       </Tab>
 
-      <div className="toast">
-        {toastAlerts.map((alert) => (
-          <div
-            key={alert.id}
-            className={`alert ${ALERT_TYPE_CLASSNAMES[alert.type]} ${alert.type} gap-2 !grid-cols-[auto_1fr]`}
-          >
-            <span className="whitespace-normal text-left">{alert.message}</span>
-          </div>
-        ))}
-      </div>
+      <ToastAlerts alerts={toastAlerts} />
     </div>
   )
 }

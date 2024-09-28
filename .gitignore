@@ -37,3 +37,9 @@ next-env.d.ts
 
 # sample data
 /src/sample_data
+
+# vscode
+.vscode
+
+# settings for GitHub Packages
+.npmrc

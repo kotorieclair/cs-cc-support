@@ -1,7 +1,11 @@
 import { memo, useCallback } from 'react'
-import { RadioCheckInput, RadioCheckInputProps } from '../RadioCheckInput'
+import {
+  RadioCheckInput,
+  RadioCheckInputProps,
+  RadioCheckInputValue,
+} from '@kotorieclair/ktrecl-ui-tools'
 
-type Props<T extends number | string> = {
+type Props<T extends RadioCheckInputValue> = {
   title: string
   options: { value: T; label: string; disabled?: boolean }[]
   values: T[]
@@ -9,15 +13,15 @@ type Props<T extends number | string> = {
   className?: string
 }
 
-function CheckboxGroup<T extends number | string>({
+function CheckboxGroup<T extends RadioCheckInputValue>({
   title,
   options,
   values,
   onChange,
-  className,
+  className = '',
 }: Props<T>) {
-  const handleChange: RadioCheckInputProps<T>['onChange'] = useCallback(
-    (val, checked) => {
+  const handleChange = useCallback<RadioCheckInputProps<T>['onChange']>(
+    (checked, val) => {
       onChange(checked ? [...values, val] : values.filter((v) => v !== val))
     },
     [onChange, values]

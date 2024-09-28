@@ -9,7 +9,7 @@ type Props = {
 const ConfirmFormBox = memo(function ConfirmFormBox({
   title,
   children,
-  className,
+  className = '',
 }: Props) {
   return (
     <div className={className}>

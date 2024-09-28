@@ -1,5 +1,8 @@
 import { memo, ReactNode, useCallback } from 'react'
-import { RadioCheckInput, RadioCheckInputProps } from '../RadioCheckInput'
+import {
+  RadioCheckInput,
+  RadioCheckInputProps,
+} from '@kotorieclair/ktrecl-ui-tools'
 
 type Row = { [key: string]: unknown }
 
@@ -20,19 +23,20 @@ function SelectTable<T extends Row>({
   rowRenderer,
   selectedRows,
   onSelect,
-  className,
+  className = '',
 }: Props<T>) {
-  const handleSelectRows: RadioCheckInputProps<number>['onChange'] =
-    useCallback(
-      (index, checked) => {
-        onSelect(
-          checked
-            ? [...selectedRows, index]
-            : selectedRows.filter((i) => i !== index)
-        )
-      },
-      [selectedRows, onSelect]
-    )
+  const handleSelectRows = useCallback<
+    RadioCheckInputProps<number>['onChange']
+  >(
+    (checked, index) => {
+      onSelect(
+        checked
+          ? [...selectedRows, index]
+          : selectedRows.filter((i) => i !== index)
+      )
+    },
+    [selectedRows, onSelect]
+  )
 
   return (
     <div className={className}>

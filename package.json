@@ -1,15 +1,17 @@
 {
   "name": "mglg-cc-support",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "ktrecl": "npm install @kotorieclair/ktrecl-ui-tools@latest"
   },
   "dependencies": {
+    "@kotorieclair/ktrecl-ui-tools": "^0.0.10",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18"

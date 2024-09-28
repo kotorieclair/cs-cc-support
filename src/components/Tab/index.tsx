@@ -13,7 +13,7 @@ type Props = {
   children: ReactNode
 }
 
-const Tab = memo(function Tab({ title, className, children }: Props) {
+const Tab = memo(function Tab({ title, className = '', children }: Props) {
   return (
     <div className={`tabs tabs-lifted ${className}`}>
       <span className="tab tab-active [--tab-bg:oklch(var(--nc))] font-bold whitespace-nowrap">

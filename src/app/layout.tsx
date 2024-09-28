@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import '@kotorieclair/ktrecl-ui-tools/styles.css'
 import './globals.css'
-// import './icons.css'
 import { antiqua } from './font'
 
 export const metadata: Metadata = {
@@ -26,6 +26,12 @@ export const metadata: Metadata = {
       notranslate: true,
     },
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({

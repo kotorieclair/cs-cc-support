@@ -1,21 +1,32 @@
-import { memo } from 'react'
-import { RadioCheckInput, RadioCheckInputProps } from '../RadioCheckInput'
+import { memo, useCallback } from 'react'
+import {
+  RadioCheckInput,
+  RadioCheckInputProps,
+  RadioCheckInputValue,
+} from '@kotorieclair/ktrecl-ui-tools'
 
-type Props<T extends number | string> = {
+type Props<T extends RadioCheckInputValue> = {
   title: string
   options: { value: T; label: string; disabled?: boolean }[]
   value: T
-  onChange: RadioCheckInputProps<T>['onChange']
+  onChange: (value: T) => void
   className?: string
 }
 
-function RadioGroup<T extends number | string>({
+function RadioGroup<T extends RadioCheckInputValue>({
   title,
   options,
   value,
   onChange,
-  className,
+  className = '',
 }: Props<T>) {
+  const handleChange = useCallback<RadioCheckInputProps<T>['onChange']>(
+    (_, val) => {
+      onChange(val)
+    },
+    [onChange]
+  )
+
   return (
     <div className={className}>
       <div className="badge badge-md badge-accent mb-1.5">{title}</div>
@@ -28,7 +39,7 @@ function RadioGroup<T extends number | string>({
             <RadioCheckInput
               type="radio"
               value={o.value}
-              onChange={onChange}
+              onChange={handleChange}
               checked={o.value === value}
               className="radio radio-xs radio-primary"
               disabled={o.disabled}
