@@ -72,6 +72,7 @@ const SpookySection = memo(function SpookySection({
     statusOutputData,
     paramsOutputData,
     commandsOutputData,
+    addToastAlert,
   ])
 
   // 初期ロード

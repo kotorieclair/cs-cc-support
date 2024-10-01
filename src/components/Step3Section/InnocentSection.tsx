@@ -64,7 +64,14 @@ const InnocentSection = memo(function InnocentSection({
         'イノセント用コマのクリップボードへの出力に失敗しました'
       )
     }
-  }, [csUrl, nameOutputData, memoOutputData, statusOutputData])
+  }, [
+    csUrl,
+    nameOutputData,
+    memoOutputData,
+    statusOutputData,
+    commandsOutputData,
+    addToastAlert,
+  ])
 
   // 初期ロード
   useEffect(() => {
