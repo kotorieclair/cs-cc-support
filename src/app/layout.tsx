@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" data-theme="synthwave">
-      <body className="md:flex flex-col md:h-screen">
+      <body className="md:flex flex-col md:h-screen bg-pattern">
         <div className="flex-1 md:flex gap-6 w-full max-w-screen-xl md:h-screen md:min-h-[700px] md:max-h-[1000px] mx-auto p-3 md:p-6 md:pb-2">
           <header className="flex-none bg-box px-3 py-4 md:p-4 md:w-[200px] min-[950px]:w-[280px]">
             <div>
@@ -80,7 +80,7 @@ export default function RootLayout({
                 </span>
               </p>
               <div className="text-center text-xs min-[950px]:text-sm mt-3 md:mt-10">
-                <h2>最終更新日：20XX/XX/XX</h2>
+                <h2>最終更新日：2024/10/01</h2>
                 <p className="mt-0.5 md:mt-1.5">ツール公開開始</p>
               </div>
             </div>

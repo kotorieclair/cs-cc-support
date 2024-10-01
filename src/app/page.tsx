@@ -75,7 +75,6 @@ export default function Home() {
         data = loaded.data
       } else {
         const { href, searchParams } = new URL(csUrl)
-        console.log(href, searchParams.get('key'))
 
         if (!href.startsWith(URL_BASE)) {
           throw new Error('指定されたURLに問題があります。')
@@ -195,29 +194,31 @@ export default function Home() {
         </div>
 
         {!isLoadingCs && step === 1 && (
-          <div className="h-full flex items-center justify-center opacity-30 py-6">
-            <Image
-              src="/spooky_loading.svg"
-              width={150}
-              height={150}
-              alt=""
-              className="w-[100px] h-[100px] md:w-[150px] md:h-[150px]"
-            />
-          </div>
-        )}
-
-        {isLoadingCs && (
-          <div className="h-full md:flex items-center justify-center opacity-30 max-md:mt-6">
-            <div className="flex flex-col items-center gap-4 animate-pulse">
+          <div className="h-full flex items-center justify-center pt-6 md:py-6">
+            <div className="p-8 rounded-full bg-base-100">
               <Image
                 src="/spooky_loading.svg"
                 width={150}
                 height={150}
                 alt=""
-                className="w-[100px] h-[100px] md:w-[150px] md:h-[150px]"
+                className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] opacity-30"
+              />
+            </div>
+          </div>
+        )}
+
+        {isLoadingCs && (
+          <div className="h-full flex items-center justify-center pt-6 md:py-6">
+            <div className="p-8 rounded-full bg-base-100 relative">
+              <Image
+                src="/spooky_loading.svg"
+                width={150}
+                height={150}
+                alt=""
+                className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] opacity-30 animate-pulse"
               />
               <div
-                className={`${cherrybomb.className} text-center text-2xl md:text-3xl`}
+                className={`${cherrybomb.className} text-center text-2xl md:text-3xl absolute top-1/2 left-1/2 -translate-x-1/2`}
               >
                 loading...
               </div>

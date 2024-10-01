@@ -139,9 +139,11 @@ const Step2Section = memo(function Step2Section({
                 <TextWithBadge badgeText="衣装1" badgeColor="accent">
                   {spooky.body.wear1}
                 </TextWithBadge>
-                <TextWithBadge badgeText="衣装2" badgeColor="accent">
-                  {spooky.body.wear2}
-                </TextWithBadge>
+                {spooky.body.wear2 && (
+                  <TextWithBadge badgeText="衣装2" badgeColor="accent">
+                    {spooky.body.wear2}
+                  </TextWithBadge>
+                )}
               </div>
             </div>
             <div className="absolute z-[1] right-0 bottom-0 bg-secondary text-secondary-content text-base md:text-lg font-semibold w-[150px] pl-6 pt-3 md:pt-4 pb-1.5 md:pb-2 rounded-tl-lg">

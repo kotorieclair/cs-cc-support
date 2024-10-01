@@ -115,8 +115,7 @@ const SpookySection = memo(function SpookySection({
       '',
       `からだ：${spooky.body.body}`,
       `衣装1：${spooky.body.wear1}`,
-      `衣装2：${spooky.body.wear2}`,
-    ]
+    ].concat(spooky.body.wear2 ? [`衣装2：${spooky.body.wear2}`] : [])
     setMemoOutputData(
       [...memoBase, ...memoStatus, ...memoMagic, ...memoBody].join('\n')
     )
@@ -165,9 +164,11 @@ const SpookySection = memo(function SpookySection({
         <TextWithBadge badgeText="衣装1" badgeColor="accent">
           {spooky.body.wear1}
         </TextWithBadge>
-        <TextWithBadge badgeText="衣装2" badgeColor="accent">
-          {spooky.body.wear2}
-        </TextWithBadge>
+        {spooky.body.wear2 && (
+          <TextWithBadge badgeText="衣装2" badgeColor="accent">
+            {spooky.body.wear2}
+          </TextWithBadge>
+        )}
       </CharaSummary>
 
       <div className="grid grid-cols-1 gap-3 md:gap-4 md:max-w-[500px] mt-4 md:mt-6">

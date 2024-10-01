@@ -46,7 +46,7 @@ const InnocentSection = memo(function InnocentSection({
       memo: memoOutputData,
       status: statusOutputData,
       params: [],
-      commands: '',
+      commands: commandsOutputData,
     }
 
     const icon: CcCharacterClipboardData = {
