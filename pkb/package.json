@@ -1,0 +1,32 @@
+{
+  "name": "pkb-cc-support",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3003",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ktrecl": "npm install @kotorieclair/ktrecl-ui-tools@latest"
+  },
+  "dependencies": {
+    "@kotorieclair/ktrecl-ui-tools": "^0.0.10",
+    "next": "14.2.6",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.14",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "daisyui": "^4.12.10",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.6",
+    "eslint-config-prettier": "^9.1.0",
+    "postcss": "^8",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
