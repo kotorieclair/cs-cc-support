@@ -1,0 +1,146 @@
+@import '../../globals.css';
+@plugin 'daisyui' {
+  themes: synthwave;
+}
+@plugin 'daisyui/theme' {
+  name: 'synthwave';
+  default: true;
+  --color-base-content: oklch(85% 0.115 274.713);
+}
+
+@theme {
+  --breakpoint-lgcol: 950px;
+}
+
+.bg-box {
+  background-color: var(--color-base-300);
+  border-radius: var(--radius-2xl);
+}
+
+/** base-100 + neutral-content*/
+.bg-pattern {
+  background-color: var(--color-base-100);
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='oklch(87% .065 274.039)' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@utility scrollable-overlay {
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    background-image: linear-gradient(0deg, var(--color-base-300), transparent);
+    z-index: 10;
+  }
+}
+@utility scrollable-overlay-content {
+  position: relative;
+  z-index: 1;
+}
+
+@utility text-border-1 {
+  text-shadow: var(--color-base-300) 2px 2px 1px,
+    var(--color-base-300) -2px -2px 1px, var(--color-base-300) 2px 0px 1px,
+    var(--color-base-300) -2px 0px 1px, var(--color-base-300) 0px 2px 1px,
+    var(--color-base-300) 0px -2px 1px, var(--color-base-300) 2px -2px 1px,
+    var(--color-base-300) -2px 2px 1px, rgba(255, 255, 255, 50%) 2px 2px 3px,
+    rgba(255, 255, 255, 50%) -2px -2px 3px, rgba(255, 255, 255, 50%) 2px 0px 3px,
+    rgba(255, 255, 255, 50%) -2px 0px 3px, rgba(255, 255, 255, 50%) 0px 2px 3px,
+    rgba(255, 255, 255, 50%) 0px -2px 3px, rgba(255, 255, 255, 50%) 2px -2px 3px,
+    rgba(255, 255, 255, 50%) -2px 2px 3px;
+}
+@utility text-border-2 {
+  text-shadow: var(--color-base-300) 3px 3px 2px,
+    var(--color-base-300) -3px -3px 2px, var(--color-base-300) 3px 0px 2px,
+    var(--color-base-300) -3px 0px 2px, var(--color-base-300) 0px 3px 2px,
+    var(--color-base-300) 0px -3px 2px, var(--color-base-300) 3px -3px 2px,
+    var(--color-base-300) -3px 3px 2px, rgba(255, 255, 255, 50%) 3px 3px 4px,
+    rgba(255, 255, 255, 50%) -3px -3px 4px, rgba(255, 255, 255, 50%) 3px 0px 4px,
+    rgba(255, 255, 255, 50%) -3px 0px 4px, rgba(255, 255, 255, 50%) 0px 3px 4px,
+    rgba(255, 255, 255, 50%) 0px -3px 4px, rgba(255, 255, 255, 50%) 3px -3px 4px,
+    rgba(255, 255, 255, 50%) -3px 3px 4px;
+}
+@utility text-border-3 {
+  text-shadow: var(--color-base-300) 4px 4px 2px,
+    var(--color-base-300) -4px -4px 2px, var(--color-base-300) 4px 0px 2px,
+    var(--color-base-300) -4px 0px 2px, var(--color-base-300) 0px 4px 2px,
+    var(--color-base-300) 0px -4px 2px, var(--color-base-300) 4px -4px 2px,
+    var(--color-base-300) -4px 4px 2px, rgba(255, 255, 255, 50%) 4px 4px 5px,
+    rgba(255, 255, 255, 50%) -4px -4px 5px, rgba(255, 255, 255, 50%) 4px 0px 5px,
+    rgba(255, 255, 255, 50%) -4px 0px 5px, rgba(255, 255, 255, 50%) 0px 4px 5px,
+    rgba(255, 255, 255, 50%) 0px -4px 5px, rgba(255, 255, 255, 50%) 4px -4px 5px,
+    rgba(255, 255, 255, 50%) -4px 4px 5px;
+}
+.animate-slide-in {
+  animation: slide-in 0.5s forwards;
+}
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+.hover-arrow:hover {
+  @apply cursor-pointer;
+  @apply bg-white/5;
+  @apply transition-colors;
+}
+.hover-arrow:hover .hover-arrow-child {
+  @apply translate-x-1.5;
+}
+
+.msi-arrow-back::before {
+  --tw-content: '\e2ea';
+  content: '\e2ea';
+}
+
+.msi-arrow-forward::before {
+  --tw-content: '\e5e1';
+  content: '\e5e1';
+}
+
+.msi-number-1::before {
+  --tw-content: '\f784';
+  content: '\f784';
+  font-size: 1.3em;
+  color: var(--color-warning);
+}
+.msi-number-2::before {
+  --tw-content: '\f783';
+  content: '\f783';
+  font-size: 1.3em;
+  color: var(--color-warning);
+}
+.msi-number-3::before {
+  --tw-content: '\f782';
+  content: '\f782';
+  font-size: 1.3em;
+  color: var(--color-warning);
+}
+
+.msi-brightness::before {
+  --tw-content: '\f7e8';
+  content: '\f7e8';
+}
+
+.msi-output::before {
+  --tw-content: '\ebbe';
+  content: '\ebbe';
+  font-size: 1.5em;
+}
+
+.msi-load::before {
+  --tw-content: '\f053';
+  content: '\f053';
+  font-size: 1.3em;
+}
