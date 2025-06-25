@@ -5,6 +5,8 @@
 @plugin 'daisyui/theme' {
   name: 'synthwave';
   default: true;
+  prefersdark: true;
+  color-scheme: dark;
   --color-base-content: oklch(85% 0.115 274.713);
 }
 

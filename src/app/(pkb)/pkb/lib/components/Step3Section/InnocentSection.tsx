@@ -131,8 +131,11 @@ const InnocentSection = memo(function InnocentSection({
 
     // チャパレ
     const baseCommands = [
+      '### 判定 ###',
       ...innocent.skills?.map((s) => `2D6>=5 （判定：${s}）`),
-      '2B6 （合体攻撃！）',
+      ' ',
+      '### 攻撃 ###',
+      '2B6 合体攻撃！',
     ].join('\n')
 
     setCommandsOutputData(baseCommands)

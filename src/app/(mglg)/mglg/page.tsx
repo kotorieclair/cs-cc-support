@@ -40,7 +40,8 @@ import {
   SKILLS_WITH_ROW_NAME,
 } from './constants'
 import { antiqua } from './fonts'
-import { SYSTEM_ID, URL_BASE } from '@/app/constants'
+import { SYSTEM_ID } from '@/app/constants'
+import { fetchCsData } from '@/lib/util/fetchCsData'
 
 const MAGIC_OUTPUT_LINE_1 = 0
 const MAGIC_OUTPUT_LINE_2 = 1
@@ -314,31 +315,40 @@ export default function MglgHome() {
   // 出力用チャットパレットのデータを作成
   const paletteOutputData = useMemo<string[]>(() => {
     const skillsOutput = paletteOutputSettings.includes(PALETTE_OUTPUT_SKILLS)
-      ? chara.skills?.map((s) => `2D6>=5 （判定：${s}）`) ?? []
+      ? ['### 判定 ###'].concat(
+          chara.skills?.map((s) => `2D6>=5 （判定：${s}）`)
+        ) ?? []
       : []
 
     const soulSkillOutput = paletteOutputSettings.includes(
       PALETTE_OUTPUT_SOUL_SKILL
     )
-      ? [`2D6>=6 （判定：${chara.soulSkill}／魔力1消費）`]
+      ? ['### 魂の特技 ###', `2D6>=6 （判定：${chara.soulSkill}／魔力1消費）`]
       : []
 
     const skillNamesOutput = paletteOutputSettings.includes(
       PALETTE_OUTPUT_SKILL_NAMES
     )
-      ? chara.skills?.map((s) => `《${s}》`) ?? []
+      ? ['### 特技 ###'].concat(chara.skills?.map((s) => `《${s}》`)) ?? []
       : []
 
-    const magicOutput = paletteOutputMagic.map(
-      (i) => `【${magic[i].name[magicOutputLineNum]}】`
-    )
+    const magicOutput = paletteOutputMagic.length
+      ? ['### 蔵書 ###'].concat(
+          paletteOutputMagic.map(
+            (i) => `【${magic[i].name[magicOutputLineNum]}】`
+          )
+        )
+      : []
 
-    return [
-      ...skillsOutput,
-      ...soulSkillOutput,
-      ...skillNamesOutput,
-      ...magicOutput,
-    ]
+    const p = [
+      skillsOutput,
+      soulSkillOutput,
+      skillNamesOutput,
+      magicOutput,
+    ].flatMap((list) => (list.length ? [...list, ' '] : list))
+    p.pop()
+
+    return p
   }, [
     chara,
     magic,
@@ -399,18 +409,7 @@ export default function MglgHome() {
         const loaded = await import(process.env.NEXT_PUBLIC_SAMPLE_DATA_MGLG)
         data = loaded.data
       } else {
-        const { href, searchParams } = new URL(csUrl)
-
-        if (!href.startsWith(`${URL_BASE}${SYSTEM_ID.MGLG}`)) {
-          throw new Error('指定されたURLに問題があります。')
-        }
-
-        const key = searchParams.get('key')
-
-        const res = await fetch(`/api/${SYSTEM_ID.MGLG}/${key}`, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        data = await res.json()
+        data = await fetchCsData<CsData>(csUrl, SYSTEM_ID.MGLG)
       }
 
       if (data) {
@@ -468,7 +467,10 @@ export default function MglgHome() {
     } catch (e) {
       setIsLoadingCs(false)
       console.error(e)
-      addToastAlert('error', 'キャラクターシートの読み込みに失敗しました')
+      addToastAlert(
+        'error',
+        (e as Error)?.message || 'キャラクターシートの読み込みに失敗しました'
+      )
     }
   }, [csUrl, addToastAlert])
 

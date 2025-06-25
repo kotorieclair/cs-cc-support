@@ -64,6 +64,7 @@ export default function PkbLayout({
                     height={190}
                     alt=""
                     className="size-full"
+                    priority
                   />
                 </div>
               </h1>

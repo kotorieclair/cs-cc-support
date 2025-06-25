@@ -23,7 +23,8 @@ import { Step2Section } from './lib/components/Step2Section'
 import { Step3Section } from './lib/components/Step3Section'
 import { StepHeading } from './lib/components/StepHeading'
 import { cherrybomb } from './fonts'
-import { SYSTEM_ID, URL_BASE } from '@/app/constants'
+import { SYSTEM_ID } from '@/app/constants'
+import { fetchCsData } from '@/lib/util/fetchCsData'
 
 // 出力したいもの
 // イノセント：元気、眠気、MP、（メモ：才能、弱点、特技）
@@ -74,18 +75,7 @@ export default function PkbHome() {
         const loaded = await import(process.env.NEXT_PUBLIC_SAMPLE_DATA_PKB)
         data = loaded.data
       } else {
-        const { href, searchParams } = new URL(csUrl)
-
-        if (!href.startsWith(`${URL_BASE}${SYSTEM_ID.PKB}`)) {
-          throw new Error('指定されたURLに問題があります。')
-        }
-
-        const key = searchParams.get('key')
-
-        const res = await fetch(`/api/${SYSTEM_ID.PKB}/${key}`, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        data = await res.json()
+        data = await fetchCsData<CsData>(csUrl, SYSTEM_ID.PKB)
       }
 
       if (data) {
@@ -153,7 +143,10 @@ export default function PkbHome() {
     } catch (e) {
       setIsLoadingCs(false)
       console.error(e)
-      addToastAlert('error', 'キャラクターシートの読み込みに失敗しました')
+      addToastAlert(
+        'error',
+        (e as Error)?.message || 'キャラクターシートの読み込みに失敗しました'
+      )
     }
   }, [csUrl, addToastAlert])
 

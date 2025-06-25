@@ -123,9 +123,14 @@ const SpookySection = memo(function SpookySection({
 
     // チャパレ
     const baseCommands = [
+      '### 判定 ###',
       '2D6>=9 （オバケ判定）',
-      '1D6+{攻撃力} （ダメージロール）',
-      '2B6 （合体攻撃！）',
+      ' ',
+      '### 攻撃 ###',
+      '1D6+{攻撃力} ダメージロール',
+      '2B6 合体攻撃！',
+      ' ',
+      '### 魔法 ###',
       ...magic,
     ].join('\n')
 
