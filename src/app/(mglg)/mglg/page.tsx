@@ -24,7 +24,7 @@ import {
 } from './lib/components/Tab'
 import { RadioGroup } from './lib/components/RadioGroup'
 import { CheckboxGroup } from './lib/components/CheckboxGroup'
-import { SelectTable } from './lib/components/SelectTable'
+import { SelectTable, SelectTableRow } from './lib/components/SelectTable'
 import { PreviewItem } from './lib/components/PreviewItem'
 import { ConfirmFormBox } from './lib/components/ConfirmFormBox'
 import {
@@ -137,7 +137,12 @@ export default function MglgHome() {
 
   // 出力として選択できる魔法一覧
   const outputSelectableMagic = useMemo(
-    () => magic.filter((m) => m.name && (m.cost || m.skill)),
+    () =>
+      magic.reduce<(Magic & SelectTableRow)[]>(
+        (acc, m, i) =>
+          m.name && (m.cost || m.skill) ? [...acc, { ...m, index: i }] : acc,
+        []
+      ),
     [magic]
   )
 
@@ -425,6 +430,9 @@ export default function MglgHome() {
           return acc
         }, [])
 
+        // 魔法自動選択にも使う
+        const source = data.base.source ? parseInt(data.base.source, 10) : 0
+
         const charaData: Chara = {
           player: data.base.player || '',
           covername: data.base.covername || '',
@@ -437,7 +445,7 @@ export default function MglgHome() {
           skills,
           attack: data.base.attack ? parseInt(data.base.attack, 10) : 0,
           defense: data.base.defense ? parseInt(data.base.defense, 10) : 0,
-          source: data.base.source ? parseInt(data.base.source, 10) : 0,
+          source,
           career: data.base.career || '',
           belief: data.base.belief || '',
           cover: data.base.cover || '',
@@ -461,6 +469,19 @@ export default function MglgHome() {
         setMagic(magicList)
 
         setNameOverride(charaData.covername)
+
+        // 魔法を上から順番に根源力+1+2(緊急召喚+初期召喚魔法)選び、チャパレとメモに出力する
+        const initialSelectedMagic = magicList.slice(0, source + 3)
+        const initialMagicIndeces = initialSelectedMagic.map((_, i) => i)
+        setMemoOutputMagic(initialMagicIndeces)
+        setPaletteOutputMagic(initialMagicIndeces)
+
+        // 上記からコストが必要な魔法を選び、ステータスに出力する
+        const initialStatusMagicIndeces = initialSelectedMagic.reduce<number[]>(
+          (acc, m, i) => ((m.cost as MagicCost)?.value ? [...acc, i] : acc),
+          []
+        )
+        setStatusOutputMagic(initialStatusMagicIndeces)
 
         setIsLoadingCs(false)
       }
@@ -498,6 +519,7 @@ export default function MglgHome() {
           className={`btn btn-xs btn-success flex-none ${
             !csUrl ? 'cursor-not-allowed' : ''
           }`}
+          disabled={!(csUrl || process.env.NEXT_PUBLIC_USE_SAMPLE === 'true')}
         >
           CS読み込み
         </button>
@@ -567,18 +589,20 @@ export default function MglgHome() {
                 <tr
                   key={i}
                   className={`${
-                    m.name && m.cost ? 'hover' : ''
+                    m.name && m.cost ? 'hover:bg-base-200' : 'min-h-4'
                   } grid md:table-row grid-cols-magic items-center`}
                 >
                   <td className="text-center row-span-2 md:table-cell flex items-center justify-center">
-                    <button
-                      className="btn btn-xs btn-info max-md:h-[2.5rem] max-md:leading-tight"
-                      onClick={curryCopyMagicName(i)}
-                    >
-                      魔法名
-                      <br className="md:hidden" />
-                      コピー
-                    </button>
+                    {m.name.length && m.cost ? (
+                      <button
+                        className="btn btn-xs btn-info max-md:h-[2.5rem] max-md:leading-tight"
+                        onClick={curryCopyMagicName(i)}
+                      >
+                        魔法名
+                        <br className="md:hidden" />
+                        コピー
+                      </button>
+                    ) : null}
                   </td>
                   <td>
                     {m.name.map((n, i) => (
@@ -598,12 +622,16 @@ export default function MglgHome() {
                       ? m.cost
                       : `${m.cost.domain}${m.cost.value}`}
                   </td>
-                  <td className="col-start-2 col-end-7 flex md:table-cell gap-0.5">
-                    <span
-                      className={`md:hidden relative before:content-['*'] inline-block text-primary text-[1.5em] leading-none translate-y-[0.2em] ${antiqua.className}`}
-                    ></span>
-                    {m.effect}
-                  </td>
+                  {m.effect ? (
+                    <td className="col-start-2 col-end-7 flex md:table-cell gap-0.5">
+                      <span
+                        className={`md:hidden relative before:content-['*'] inline-block text-primary text-[1.5em] leading-none translate-y-[0.2em] ${antiqua.className}`}
+                      ></span>
+                      {m.effect}
+                    </td>
+                  ) : (
+                    <td className="hidden"></td>
+                  )}
                 </tr>
               ))}
             </tbody>
