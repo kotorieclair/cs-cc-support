@@ -3,9 +3,10 @@ import Image from 'next/image'
 import '@kotorieclair/ktrecl-ui-tools/styles.css'
 import './styles.css'
 import { cherrybomb } from './fonts'
+import { FooterProfile } from '@/lib/components/FooterProfile'
 
 export const metadata: Metadata = {
-  title: 'PKB! CC Support (仮)',
+  title: 'PKB! CC Support',
   description: 'ピーカーブーのココフォリア用キャラコマ作成サポートツール',
   robots: {
     index: false,
@@ -42,7 +43,7 @@ export default function PkbLayout({
 }>) {
   return (
     <html lang="ja" data-theme="synthwave">
-      <body className="md:flex flex-col md:h-screen bg-pattern">
+      <body className="md:flex flex-col h-screen bg-pattern">
         <div className="flex-1 md:flex gap-6 w-full max-w-screen-xl md:h-screen md:min-h-[700px] md:max-h-[1000px] mx-auto p-3 md:p-6 md:pb-2">
           <header className="flex-none bg-box px-3 py-4 md:p-4 md:max-lgcol:w-[200px] min-lgcol:w-[280px]">
             <div>
@@ -81,8 +82,12 @@ export default function PkbLayout({
                 </span>
               </p>
               <div className="text-center text-xs min-[950px]:text-sm mt-3 md:mt-10">
-                <h2>最終更新日：2024/10/01</h2>
-                <p className="mt-0.5 md:mt-1.5">ツール公開開始</p>
+                <h2>最終更新日：2025/06/27</h2>
+                <p className="mt-0.5 md:mt-1.5">
+                  ツールデザイン更新
+                  <br />
+                  チャパレ出力内容の更新
+                </p>
               </div>
             </div>
           </header>
@@ -94,7 +99,7 @@ export default function PkbLayout({
             <span className="md:inline-block">
               <span className="block md:inline">当サイトは</span>
               <span className="block md:inline">
-                「河嶋陶一朗」「落合なごみ」「冒険企画局」が権利を有する
+                「著：河嶋陶一朗、落合なごみ／冒険企画局」が権利を有する
               </span>
             </span>
             <span className="md:inline-block">
@@ -111,37 +116,7 @@ export default function PkbLayout({
               &copy;冒険企画局／河嶋陶一朗／落合なごみ
             </span>
           </div>
-          <div className="mt-4 md:mt-3">
-            <span className="block md:inline">
-              このツールを作った人：暮亜 (
-              <a
-                href="https://x.com/kotorieclair"
-                target="_blank"
-                className="link hover:no-underline"
-              >
-                X:@kotorieclair
-              </a>
-              )
-            </span>
-            <span className="hidden md:inline px-0.5">／</span>
-            <span className="block md:inline">
-              <a
-                href="https://ktrecl-trpg-tools.vercel.app/"
-                className="link hover:no-underline"
-              >
-                KTRECL TRPG TOOLS
-              </a>
-            </span>
-          </div>
-          <div className="mt-2 md:mt-1">
-            <span className="block md:inline">
-              個人が趣味で勝手に作成しているツールです。
-            </span>
-            <span className="inline-block">
-              キャラクターシート倉庫様ならびにココフォリア様とは
-            </span>
-            <span className="inline-block">一切関係ございません。</span>
-          </div>
+          <FooterProfile className="mt-4 md:mt-3" />
         </footer>
       </body>
     </html>

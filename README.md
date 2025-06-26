@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CS CC Support
 
-## Getting Started
+キャラクターシート倉庫様のキャラシからココフォリアのコマを生成するツール群
 
-First, run the development server:
+## できること概要
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+キャラクターシート倉庫様のオンラインキャラクターシートURLを読み込ませることで、以下のようなことができます。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- ココフォリア用のコマを、ペースト可能なかたちで出力
+- 各種ステータスや能力値による副能力値の変動などにも対応（一部）
+- コマのステータス、パラメータ、チャットパレット、キャラクターメモを出力前に編集可能
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 対応システム
+現在以下のシステムに対応しております。対応システムは随時増やしていく予定です。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- マギカロギア
+- ピーカーブー
+- ストラトシャウト（予定）
 
-## Learn More
+## 権利表記
 
-To learn more about Next.js, take a look at the following resources:
+当ツールは「著：河嶋陶一朗／冒険企画局」が権利を有する『魔道書大戦RPG マギカロギア』の二次創作作品です。  
+(c)冒険企画局／河嶋陶一朗
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+当ツールは「著：河嶋陶一朗、落合なごみ／冒険企画局」が権利を有する『ご近所メルヒェンRPG ピーカーブー』の二次創作作品です。  
+(c)アークライト／新紀元社／冒険企画局／河嶋陶一朗／落合なごみ
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 注意事項
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+このツールは個人が趣味で勝手に作っているツールです。  
+システムの各公式様、ココフォリア様、ならびにキャラクターシート倉庫様とは一切関係ございません。

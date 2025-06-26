@@ -2,9 +2,10 @@ import type { Metadata, Viewport } from 'next'
 import '@kotorieclair/ktrecl-ui-tools/styles.css'
 import './styles.css'
 import { antiqua } from './fonts'
+import { FooterProfile } from '@/lib/components/FooterProfile'
 
 export const metadata: Metadata = {
-  title: 'MagicaLogia CC Support (仮)',
+  title: 'MagicaLogia CC Support',
   description: 'マギカロギアのココフォリア用キャラコマ作成サポートツール',
   robots: {
     index: false,
@@ -52,7 +53,10 @@ export default function MglgLayout({
         <div className="flex-auto flex flex-col justify-between">
           <main className="w-full bg-pattern-sub">
             <div className="text-xs md:text-sm px-2 md:px-4 pt-0 pb-2 md:pb-4 bg-pattern bg-top text-white text-center">
-              マギカロギアのココフォリア用キャラコマ作成サポートツール (仮)
+              <p>マギカロギアのココフォリア用キャラコマ作成サポートツール</p>
+              <p className="mt-2 text-xs">
+                最終更新日：2025/06/27　チャパレ出力内容の更新
+              </p>
             </div>
             <div className="bg-base-100 max-w-screen-lg mx-auto py-8 px-4 min-[860px]:p-8">
               {children}
@@ -61,44 +65,14 @@ export default function MglgLayout({
           <footer className="flex-none text-xs text-center bg-pattern bg-top text-primary-content p-5">
             <div>
               <span className="inline-block">
-                当サイトは「河嶋陶一朗」「冒険企画局」が権利を有する
+                当サイトは「著：河嶋陶一朗／冒険企画局」が権利を有する
               </span>
               <span className="inline-block">
                 『魔道書大戦RPG マギカロギア』の二次創作作品です。
               </span>
               <span className="inline-block">&copy;冒険企画局／河嶋陶一朗</span>
             </div>
-            <div className="mt-3">
-              <span className="block md:inline">
-                このツールを作った人：暮亜 (
-                <a
-                  href="https://x.com/kotorieclair"
-                  target="_blank"
-                  className="link hover:no-underline"
-                >
-                  X:@kotorieclair
-                </a>
-                )
-              </span>
-              <span className="hidden md:inline px-0.5">／</span>
-              <span className="block md:inline">
-                <a
-                  href="https://ktrecl-trpg-tools.vercel.app/"
-                  className="link hover:no-underline"
-                >
-                  KTRECL TRPG TOOLS
-                </a>
-              </span>
-            </div>
-            <div className="mt-2 md:mt-1">
-              <span className="block md:inline">
-                個人が趣味で勝手に作成しているツールです。
-              </span>
-              <span className="inline-block">
-                キャラクターシート倉庫様ならびにココフォリア様とは
-              </span>
-              <span className="inline-block">一切関係ございません。</span>
-            </div>
+            <FooterProfile className="mt-3" />
           </footer>
         </div>
       </body>
