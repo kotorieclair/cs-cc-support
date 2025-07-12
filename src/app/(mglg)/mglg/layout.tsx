@@ -55,7 +55,7 @@ export default function MglgLayout({
             <div className="text-xs md:text-sm px-2 md:px-4 pt-0 pb-2 md:pb-4 bg-pattern bg-top text-white text-center">
               <p>マギカロギアのココフォリア用キャラコマ作成サポートツール</p>
               <p className="mt-2 text-xs">
-                最終更新日：2025/06/27　チャパレ出力内容の更新
+                最終更新日：2025/07/13　チャパレ出力内容の更新、UI調整
               </p>
             </div>
             <div className="bg-base-100 max-w-screen-lg mx-auto py-8 px-4 min-[860px]:p-8">
@@ -64,8 +64,10 @@ export default function MglgLayout({
           </main>
           <footer className="flex-none text-xs text-center bg-pattern bg-top text-primary-content p-5">
             <div>
+              <span className="inline-block">当サイトは</span>
+
               <span className="inline-block">
-                当サイトは「著：河嶋陶一朗／冒険企画局」が権利を有する
+                「著：河嶋陶一朗／冒険企画局、新紀元社」が権利を有する
               </span>
               <span className="inline-block">
                 『魔道書大戦RPG マギカロギア』の二次創作作品です。

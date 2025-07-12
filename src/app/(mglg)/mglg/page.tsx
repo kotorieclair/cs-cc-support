@@ -14,7 +14,6 @@ import {
 } from '@kotorieclair/ktrecl-ui-tools'
 import { pickCostFromCsData } from './lib/util/pickCostFromCsData'
 import { generateMagicStatusLabel } from './lib/util/generateMagicStatusLabel'
-import { StatusChip } from './lib/components/StatusChip'
 import {
   Tab,
   TabColContent,
@@ -26,7 +25,13 @@ import { RadioGroup } from './lib/components/RadioGroup'
 import { CheckboxGroup } from './lib/components/CheckboxGroup'
 import { SelectTable, SelectTableRow } from './lib/components/SelectTable'
 import { PreviewItem } from './lib/components/PreviewItem'
-import { ConfirmFormBox } from './lib/components/ConfirmFormBox'
+import {
+  ConfirmFormBox,
+  ConfirmFormBoxContainer,
+  ConfirmFormBoxDivider,
+  ConfirmFormBoxPreview,
+  ConfirmFormBoxSettings,
+} from './lib/components/ConfirmFormBox'
 import {
   Chara,
   CsData,
@@ -42,6 +47,9 @@ import {
 import { antiqua } from './fonts'
 import { SYSTEM_ID } from '@/app/constants'
 import { fetchCsData } from '@/lib/util/fetchCsData'
+import { StatusPreview } from '@/lib/components/StatusPreview'
+import { MemoPreview } from '@/lib/components/MemoPreview'
+import { PalettePreview } from '@/lib/components/PalettePreview'
 
 const MAGIC_OUTPUT_LINE_1 = 0
 const MAGIC_OUTPUT_LINE_2 = 1
@@ -699,21 +707,10 @@ export default function MglgHome() {
                 showPreview={!!magic.length}
               >
                 <>
-                  <div className="w-full max-w-60 bg-base-content/[85%] rounded-sm p-3 h-[120px] mb-2">
-                    <div className="flex flex-wrap gap-[3px] max-w-[210px]">
-                      {statusOutputData.map(
-                        (d, i) =>
-                          i < 8 && (
-                            <StatusChip
-                              key={i}
-                              label={d.label}
-                              value={d.value}
-                              max={d.max}
-                            />
-                          )
-                      )}
-                    </div>
-                  </div>
+                  <StatusPreview
+                    statusData={statusOutputData}
+                    className="mb-2"
+                  />
                   <div className="w-full max-w-96 bg-base-100 rounded-sm p-3">
                     <table className="table table-sm border-y-2 border-base-200">
                       <thead>
@@ -827,14 +824,7 @@ export default function MglgHome() {
 
           <TabColRight>
             <PreviewItem title="出力プレビュー" showPreview={!!magic.length}>
-              <div className="w-full max-w-80 bg-base-content/[85%] text-base-100 text-xs rounded-sm p-3">
-                {memoOutputData.map((m, i) => (
-                  <span key={i}>
-                    {m}
-                    <br />
-                  </span>
-                ))}
-              </div>
+              <MemoPreview memoData={memoOutputData} />
             </PreviewItem>
           </TabColRight>
         </TabColContent>
@@ -875,17 +865,7 @@ export default function MglgHome() {
 
           <TabColRight>
             <PreviewItem title="出力プレビュー" showPreview={!!magic.length}>
-              <div className="w-full max-w-80 h-[300px] overflow-y-auto bg-base-content/[85%] text-base-100 text-base rounded-sm pt-2">
-                {paletteOutputData.map((p, i) => (
-                  <div
-                    key={i}
-                    className="px-4 py-3 hover:bg-white/10 cursor-pointer"
-                  >
-                    {p}
-                    <br />
-                  </div>
-                ))}
-              </div>
+              <PalettePreview paletteData={paletteOutputData} />
             </PreviewItem>
           </TabColRight>
         </TabColContent>
@@ -899,7 +879,7 @@ export default function MglgHome() {
               <br />
               （ここで内容の最終調整を行うことができます）
             </div>
-            <div className="grid grid-cols-1 gap-4 w-full max-w-[540px]">
+            <ConfirmFormBoxContainer className="gap-y-4">
               <ConfirmFormBox title="名前">
                 <TextInput
                   value={nameOverride}
@@ -907,24 +887,40 @@ export default function MglgHome() {
                   className="input-md w-full"
                 />
               </ConfirmFormBox>
-              <ConfirmFormBox title="キャラクターメモ">
-                <TextareaInput
-                  value={memoOverride}
-                  onChange={setMemoOverride}
-                  className="textarea-md w-full h-[250px] align-bottom"
-                />
+
+              <ConfirmFormBox title="キャラクターメモ" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <TextareaInput
+                    value={memoOverride}
+                    onChange={setMemoOverride}
+                    className="textarea-md w-full h-[250px] align-bottom"
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <MemoPreview memoData={memoOverride.split('\n')} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
+
               <ConfirmFormBox title="参照URL（※編集不可）">
                 <FakeInput value={csUrl} className="input-md w-full" />
               </ConfirmFormBox>
-              <ConfirmFormBox title="ステータス">
-                <StatusParamsField
-                  type="status"
-                  size="md"
-                  values={statusOverride}
-                  onChange={setStatusOverride}
-                />
+
+              <ConfirmFormBox title="ステータス" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <StatusParamsField
+                    type="status"
+                    size="md"
+                    values={statusOverride}
+                    onChange={setStatusOverride}
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <StatusPreview statusData={statusOverride} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
+
               <ConfirmFormBox title="パラメータ">
                 {parameterOverride.length ? (
                   <StatusParamsField
@@ -937,14 +933,21 @@ export default function MglgHome() {
                   <div className="text-sm">設定なし</div>
                 )}
               </ConfirmFormBox>
-              <ConfirmFormBox title="チャットパレット">
-                <TextareaInput
-                  value={paletteOverride}
-                  onChange={setPaletteOverride}
-                  className="textarea-md w-full h-[250px] align-bottom"
-                />
+
+              <ConfirmFormBox title="チャットパレット" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <TextareaInput
+                    value={paletteOverride}
+                    onChange={setPaletteOverride}
+                    className="textarea-md w-full h-[250px] align-bottom"
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <PalettePreview paletteData={paletteOverride.split('\n')} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
-            </div>
+            </ConfirmFormBoxContainer>
           </>
         ) : (
           <div className="text-sm">

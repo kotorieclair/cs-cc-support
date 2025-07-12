@@ -82,7 +82,7 @@ export default function PkbLayout({
                 </span>
               </p>
               <div className="text-center text-xs min-[950px]:text-sm mt-3 md:mt-10">
-                <h2>最終更新日：2025/06/27</h2>
+                <h2>最終更新日：2025/07/13</h2>
                 <p className="mt-0.5 md:mt-1.5">
                   ツールデザイン更新
                   <br />
@@ -99,7 +99,7 @@ export default function PkbLayout({
             <span className="md:inline-block">
               <span className="block md:inline">当サイトは</span>
               <span className="block md:inline">
-                「著：河嶋陶一朗、落合なごみ／冒険企画局」が権利を有する
+                「著：河嶋陶一朗、落合なごみ／冒険企画局、新紀元社」が権利を有する
               </span>
             </span>
             <span className="md:inline-block">

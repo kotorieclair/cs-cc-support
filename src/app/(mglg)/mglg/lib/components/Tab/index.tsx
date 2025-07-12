@@ -43,7 +43,7 @@ const TabColContent = memo(function TabColContent({
   }, [])
 
   return (
-    <TabContentContext.Provider value={isPreview}>
+    <TabContentContext value={isPreview}>
       <div className="tabs tabs-sm tabs-box md:hidden mb-4 bg-white/50 grid grid-cols-2">
         <div
           onClick={activateSettingsTab}
@@ -67,7 +67,7 @@ const TabColContent = memo(function TabColContent({
         </div>
       </div>
       <div className="block md:flex items-start">{children}</div>
-    </TabContentContext.Provider>
+    </TabContentContext>
   )
 })
 
