@@ -82,7 +82,7 @@ export default function PkbLayout({
                 </span>
               </p>
               <div className="text-center text-xs min-[950px]:text-sm mt-3 md:mt-10">
-                <h2>最終更新日：2025/02/22</h2>
+                <h2>最終更新日：2025/07/22</h2>
                 <p className="mt-0.5 md:mt-1.5">
                   ツールデザイン更新
                   <br />
