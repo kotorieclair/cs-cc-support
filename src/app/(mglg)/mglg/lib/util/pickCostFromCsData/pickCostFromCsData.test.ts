@@ -20,23 +20,58 @@ test('correctly pick cost from CS data', () => {
   expect(pickCostFromCsData(data1, TEST_CHARA)).toEqual(res1)
 
   // コスト：指定特技の分野の魔素2
-  const data2 = data.library[1] as unknown as CsDataLibrary
-  const res2: MagicCost = {
+  const data2a = data.library[1] as unknown as CsDataLibrary
+  const res2a: MagicCost = {
     domain: DOMAIN_TYPES.SONG,
     value: 2,
   }
-  expect(pickCostFromCsData(data2, TEST_CHARA)).toEqual(res2)
+  expect(pickCostFromCsData(data2a, TEST_CHARA)).toEqual(res2a)
+
+  // コスト：指定3（短縮パターン1）
+  const data2b = {
+    ...data.library[1],
+    skill: '牙',
+    cost: '指定3',
+  } as unknown as CsDataLibrary
+  const res2b: MagicCost = {
+    domain: DOMAIN_TYPES.BEAST,
+    value: 3,
+  }
+  expect(pickCostFromCsData(data2b, TEST_CHARA)).toEqual(res2b)
+
+  // コスト：指定特技4（短縮パターン2）
+  const data2c = {
+    ...data.library[1],
+    skill: '牙',
+    cost: '指定特技4',
+  } as unknown as CsDataLibrary
+  const res2c: MagicCost = {
+    domain: DOMAIN_TYPES.BEAST,
+    value: 4,
+  }
+  expect(pickCostFromCsData(data2c, TEST_CHARA)).toEqual(res2c)
 
   // コスト：自分の領域の魔素3
-  const data3 = {
+  const data3a = {
     ...data.library[1],
     cost: '自分の領域の魔素3',
   } as unknown as CsDataLibrary
-  const res3: MagicCost = {
+  const res3a: MagicCost = {
     domain: DOMAIN_TYPES.DARKNESS,
     value: 3,
   }
-  expect(pickCostFromCsData(data3, TEST_CHARA)).toEqual(res3)
+  expect(pickCostFromCsData(data3a, TEST_CHARA)).toEqual(res3a)
+
+  // コスト：自領域3（短縮パターン）
+  const data3b = {
+    ...data.library[1],
+    cost: '自領域4',
+  } as unknown as CsDataLibrary
+  const res3b: MagicCost = {
+    domain: DOMAIN_TYPES.DARKNESS,
+    value: 4,
+  }
+  expect(pickCostFromCsData(data3b, TEST_CHARA)).toEqual(res3b)
 
   // コスト：星1（分野指定の固定数値）
   const data4 = data.library[2] as unknown as CsDataLibrary

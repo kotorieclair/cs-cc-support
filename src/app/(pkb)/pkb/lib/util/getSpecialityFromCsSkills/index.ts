@@ -5,7 +5,7 @@ export const getSpecialityFromCsSkills = (skills: CsDataSkills) => {
     return SKILL_TYPES.SPORT
   }
   if (skills.b === '1' && skills.c === '1') {
-    return SKILL_TYPES.SPORT
+    return SKILL_TYPES.FRIEND
   }
   if (skills.c === '1' && skills.d === '1') {
     return SKILL_TYPES.PLAY

@@ -513,7 +513,7 @@ export default function MglgHome() {
     <div className="">
       <div className="flex justify-center gap-2 mb-6">
         <TextInput
-          placeholder="キャラクター倉庫URL"
+          placeholder="キャラクターシート倉庫URL"
           value={csUrl}
           onChange={setCsUrl}
           className="input-xs w-full md:max-w-[60%]"

@@ -34,9 +34,11 @@ const FooterProfile = memo(function FooterProfile({ className }: Props) {
           個人が趣味で勝手に作成しているツールです。
         </span>
         <span className="inline-block">
-          キャラクターシート倉庫様ならびにココフォリア様とは
+          システム公式様、キャラクターシート倉庫様
         </span>
-        <span className="inline-block">一切関係ございません。</span>
+        <span className="inline-block">
+          ならびにココフォリア様とは一切関係ございません。
+        </span>
       </div>
     </div>
   )

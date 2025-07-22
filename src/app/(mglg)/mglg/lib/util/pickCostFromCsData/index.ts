@@ -8,8 +8,8 @@ import {
 } from '@/mglg/constants'
 import { getDomainFromSkill } from '../getDomainFromSkill'
 
-const SPECIFIED_SKILL_TEXT = /指定特技の分野の魔素/
-const OWN_DOMAIN_TEXT = /自分の領域の魔素/
+const SPECIFIED_SKILL_TEXT = /指定(特技)?/
+const OWN_DOMAIN_TEXT = /(自).*(領域).*/
 const DOMAIN_ALL_TEXT = new RegExp(DOMAIN_TYPE_ALL)
 const DOMAIN_LIST_TEXT = new RegExp(DOMAIN_TYPES_LIST.join('|'))
 
