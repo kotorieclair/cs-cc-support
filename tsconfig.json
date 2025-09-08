@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/mglg/*": ["./src/app/(mglg)/mglg/*"],
-      "@/pkb/*": ["./src/app/(pkb)/pkb/*"]
+      "@/pkb/*": ["./src/app/(pkb)/pkb/*"],
+      "@/strt/*": ["./src/app/(strt)/strt/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

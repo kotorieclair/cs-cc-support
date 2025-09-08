@@ -12,6 +12,15 @@ import {
   ToastAlerts,
   useToastAlerts,
 } from '@kotorieclair/ktrecl-ui-tools'
+import {
+  CSDataLearnedRow,
+  CSDataLearnedSkillType as CSDataLearnedDomain,
+  SYSTEM_ID,
+} from '@/app/constants'
+import { fetchCsData } from '@/lib/util/fetchCsData'
+import { StatusPreview } from '@/lib/components/StatusPreview'
+import { MemoPreview } from '@/lib/components/MemoPreview'
+import { PalettePreview } from '@/lib/components/PalettePreview'
 import { pickCostFromCsData } from './lib/util/pickCostFromCsData'
 import { generateMagicStatusLabel } from './lib/util/generateMagicStatusLabel'
 import {
@@ -35,8 +44,6 @@ import {
 import {
   Chara,
   CsData,
-  CSDataLearnedDomain,
-  CSDataLearnedRow,
   DOMAIN_TYPE_MAPPER,
   Magic,
   MAGIC_TYPES,
@@ -45,11 +52,6 @@ import {
   SKILLS_WITH_ROW_NAME,
 } from './constants'
 import { antiqua } from './fonts'
-import { SYSTEM_ID } from '@/app/constants'
-import { fetchCsData } from '@/lib/util/fetchCsData'
-import { StatusPreview } from '@/lib/components/StatusPreview'
-import { MemoPreview } from '@/lib/components/MemoPreview'
-import { PalettePreview } from '@/lib/components/PalettePreview'
 
 const MAGIC_OUTPUT_LINE_1 = 0
 const MAGIC_OUTPUT_LINE_2 = 1
@@ -378,7 +380,7 @@ export default function MglgHome() {
   // コマ出力ボタンをクリック
   const handleClickOutput = useCallback(() => {
     const ccChara: CcCharacter = {
-      name: chara.covername,
+      name: nameOverride,
       memo: memoOverride,
       status: statusOverride,
       externalUrl: csUrl,
@@ -402,8 +404,8 @@ export default function MglgHome() {
       )
     }
   }, [
-    chara,
     csUrl,
+    nameOverride,
     statusOverride,
     parameterOverride,
     memoOverride,
@@ -576,7 +578,7 @@ export default function MglgHome() {
       <div className="overflow-x-auto relative mb-8">
         {isLoadingCs ? (
           <div className="w-full h-full text-center bg-base-100/50 pt-20 pb-9 md:pt-16 sticky left-0 top-0 z-10">
-            <span className="loading loading-spinner loading-lg" />
+            <span className="loading loading-spinner w-10" />
           </div>
         ) : null}
         <div className={isLoadingCs ? 'absolute top-0 left-0 right-0' : ''}>

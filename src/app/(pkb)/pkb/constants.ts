@@ -1,3 +1,9 @@
+import {
+  CSDataLearned,
+  CSDataLearnedRow,
+  CSDataLearnedSkillType,
+} from '@/app/constants'
+
 export const SKILL_TYPES = {
   BAD: '不良',
   SPORT: '運動',
@@ -129,7 +135,6 @@ export type CsDataBase = {
   }
   player: string
 }
-
 export type CsDataAbility = {
   body: string
   magic1: string
@@ -141,14 +146,6 @@ export type CsDataAbility = {
   wear1: string
   wear2: string
 }
-
-export type CSDataLearnedRow = `row${number}`
-export type CSDataLearnedSkillType = `name${number}`
-export type CSDataLearned = {
-  id: `skills.${CSDataLearnedRow}.${CSDataLearnedSkillType}` | null
-  judge: null
-}
-
 export type CsDataSkills = {
   a: string | null
   b: string | null
@@ -157,7 +154,6 @@ export type CsDataSkills = {
   e: string | null
   f: string | null // 不良の左
 }
-
 export type CsData = {
   ability: CsDataAbility
   base: CsDataBase

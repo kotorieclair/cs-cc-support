@@ -65,7 +65,6 @@ export default function MglgLayout({
           <footer className="flex-none text-xs text-center bg-pattern bg-top text-primary-content p-5">
             <div>
               <span className="inline-block">当サイトは</span>
-
               <span className="inline-block">
                 「著：河嶋陶一朗／冒険企画局、新紀元社」が権利を有する
               </span>

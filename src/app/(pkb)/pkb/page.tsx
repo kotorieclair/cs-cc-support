@@ -9,11 +9,15 @@ import {
   useToastAlerts,
 } from '@kotorieclair/ktrecl-ui-tools'
 import {
+  CSDataLearnedRow,
+  CSDataLearnedSkillType,
+  SYSTEM_ID,
+} from '@/app/constants'
+import { fetchCsData } from '@/lib/util/fetchCsData'
+import {
   Innocent,
   Spooky,
   CsData,
-  CSDataLearnedSkillType,
-  CSDataLearnedRow,
   SKILLS_WITH_ROW_NAME,
   OUTPUT_TYPE,
   OutputType,
@@ -23,8 +27,6 @@ import { Step2Section } from './lib/components/Step2Section'
 import { Step3Section } from './lib/components/Step3Section'
 import { StepHeading } from './lib/components/StepHeading'
 import { cherrybomb } from './fonts'
-import { SYSTEM_ID } from '@/app/constants'
-import { fetchCsData } from '@/lib/util/fetchCsData'
 
 // 出力したいもの
 // イノセント：元気、眠気、MP、（メモ：才能、弱点、特技）

@@ -1,0 +1,18 @@
+<!-- ?xml version="1.0" encoding="UTF-8"? -->
+
+<!-- stroke: accent -->
+<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 75">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: oklch(90% 0.182 98.111);
+        stroke-miterlimit: 0;
+        stroke-width: 0.24rem;
+      }
+    </style>
+  </defs>
+  <line class="cls-1" x1="103.39" y1="44.34" x2="110" y2="44.34"/>
+  <line class="cls-1" y1="44.34" x2="8.72" y2="44.34"/>
+  <path class="cls-1" d="M103.39,44.34c-6.76,0-6.1,17.66-11.82,17.66-4.97,0-6.3-35-13.06-35s-6.83,40-13.59,40c-6.76,0-6.99-65-15.62-65-8.16,0-5.37,71-13.52,71-7.89,0-6.77-56-13.53-56s-6.77,27.34-13.53,27.34"/>
+</svg>
