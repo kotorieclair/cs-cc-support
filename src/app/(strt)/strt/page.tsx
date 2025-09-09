@@ -248,6 +248,7 @@ export default function StrtHome() {
     setPaletteOverride(paletteOutputData.join('\n'))
   }, [paletteOutputData])
 
+  // コマ出力
   const handleClickOutput = useCallback(() => {
     const ccChara: CcCharacter = {
       name: nameOverride,
