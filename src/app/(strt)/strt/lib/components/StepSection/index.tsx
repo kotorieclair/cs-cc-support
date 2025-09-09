@@ -53,7 +53,7 @@ const StepSection = memo(function StepSection({
         </div>
 
         <div
-          className="max-h-full bg-pattern rounded-sm border-1 border-primary relative overflow-y-auto z-1"
+          className="max-h-full bg-pattern-box rounded-sm border-1 border-primary relative overflow-y-auto z-1"
           data-scroll-target={step}
         >
           <div className="w-full h-4 md:h-6 bg-linear-to-b from-primary/30 to-transparent rounded-t-sm sticky top-0 left-0 z-10" />

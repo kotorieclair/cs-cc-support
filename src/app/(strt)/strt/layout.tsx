@@ -43,7 +43,7 @@ export default function StrtLayout({
 }>) {
   return (
     <html lang="ja" data-theme="darkstrt">
-      <body className="md:h-screen md:flex flex-col">
+      <body className="md:h-screen md:flex flex-col bg-pattern-back">
         <header className="flex-none md:flex gap-20 items-center justify-center p-3 md:p-5 pb-6">
           <div className="max-md:text-center">
             <h1
@@ -66,7 +66,9 @@ export default function StrtLayout({
           </div>
         </header>
 
-        <div className="flex-1 flex flex-col overflow-y-hidden">{children}</div>
+        <div className="flex-1 flex flex-col overflow-y-hidden bg-base-100">
+          {children}
+        </div>
 
         <footer className="flex-none text-xs p-4 pt-6 text-center">
           <div>
