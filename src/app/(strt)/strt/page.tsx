@@ -32,9 +32,18 @@ import {
 } from './constants'
 import { getInstrument } from './lib/util/getInstrument'
 import { getStrategy } from './lib/util/getStrategy'
-import { ConfirmFormBox } from './lib/components/ConfirmFormBox'
+import {
+  ConfirmFormBox,
+  ConfirmFormBoxContainer,
+  ConfirmFormBoxDivider,
+  ConfirmFormBoxPreview,
+  ConfirmFormBoxSettings,
+} from './lib/components/ConfirmFormBox'
 import { removePhraseBurstFromAbilities } from './lib/util/removePhraseBurstFromAbilities'
 import { StepSection } from './lib/components/StepSection'
+import { MemoPreview } from '@/lib/components/MemoPreview'
+import { StatusPreview } from '@/lib/components/StatusPreview'
+import { PalettePreview } from '@/lib/components/PalettePreview'
 
 export default function StrtHome() {
   const [csUrl, setCsUrl] = useState('')
@@ -134,7 +143,11 @@ export default function StrtHome() {
       }`,
       subInfo.join('／'),
       '',
-      `楽器：${instrumentOverride}`,
+      `楽器：${
+        chara.instrument === instrumentOverride
+          ? chara.instrumentName
+          : instrumentOverride
+      }`,
       `作戦：${strategyOverride}`,
       `経緯：${chara.circumstances}`,
       '',
@@ -332,6 +345,7 @@ export default function StrtHome() {
           circumstances: data.base.circumstances || '',
           instrument: instrument || INSTRUMENTS.VO,
           instrumentDamage: normalizeText(data.base.instrument.damage || ''),
+          instrumentName: data.base.instrument.name || '',
           strategy: strategy || STRATEGIES.EMOTION,
           mastery: data.base.instrument.skill
             ? parseInt(normalizeText(data.base.instrument.skill), 10)
@@ -527,7 +541,7 @@ export default function StrtHome() {
             </div>
           )}
           {isCharaDataAvailable && (
-            <div className="grid gap-6 mt-10">
+            <ConfirmFormBoxContainer className="gap-y-6 mt-10">
               <ConfirmFormBox title="名前">
                 <TextInput
                   value={nameOverride}
@@ -535,25 +549,37 @@ export default function StrtHome() {
                   className="w-full"
                 />
               </ConfirmFormBox>
-              <ConfirmFormBox title="キャラクターメモ">
-                <TextareaInput
-                  value={memoOverride}
-                  onChange={setMemoOverride}
-                  className="w-full h-[250px]"
-                />
+              <ConfirmFormBox title="キャラクターメモ" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <TextareaInput
+                    value={memoOverride}
+                    onChange={setMemoOverride}
+                    className="w-full h-[250px]"
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <MemoPreview memoData={memoOverride.split('\n')} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
               <ConfirmFormBox title="参照URL（※編集不可）">
                 <FakeInput value={csUrl} className="w-full" />
               </ConfirmFormBox>
-              <ConfirmFormBox title="ステータス">
-                <StatusParamsField
-                  type="status"
-                  size="md"
-                  values={statusOverride}
-                  onChange={setStatusOverride}
-                />
+              <ConfirmFormBox title="ステータス" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <StatusParamsField
+                    type="status"
+                    size="md"
+                    values={statusOverride}
+                    onChange={setStatusOverride}
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <StatusPreview statusData={statusOverride} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
-              <ConfirmFormBox title="パラメータ">
+              <ConfirmFormBox title="パラメータ" hasPreview>
                 <StatusParamsField
                   type="params"
                   size="md"
@@ -561,14 +587,20 @@ export default function StrtHome() {
                   onChange={setParameterOverride}
                 />
               </ConfirmFormBox>
-              <ConfirmFormBox title="チャットパレット">
-                <TextareaInput
-                  value={paletteOverride}
-                  onChange={setPaletteOverride}
-                  className="w-full h-[250px]"
-                />
+              <ConfirmFormBox title="チャットパレット" hasPreview>
+                <ConfirmFormBoxSettings>
+                  <TextareaInput
+                    value={paletteOverride}
+                    onChange={setPaletteOverride}
+                    className="w-full h-[250px]"
+                  />
+                </ConfirmFormBoxSettings>
+                <ConfirmFormBoxDivider />
+                <ConfirmFormBoxPreview>
+                  <PalettePreview paletteData={paletteOverride.split('\n')} />
+                </ConfirmFormBoxPreview>
               </ConfirmFormBox>
-            </div>
+            </ConfirmFormBoxContainer>
           )}
           <div className="flex justify-between mt-12">
             <button

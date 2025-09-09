@@ -191,6 +191,7 @@ export type Chara = {
   circumstances: string
   instrument: Instrument
   instrumentDamage: string
+  instrumentName: string
   strategy: Strategy
   mastery: number
   skills: string[]

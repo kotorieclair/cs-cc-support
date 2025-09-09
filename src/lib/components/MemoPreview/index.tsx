@@ -11,7 +11,7 @@ const MemoPreview = memo(function MemoPreview({
 }: Props) {
   return (
     <div
-      className={`w-full max-w-80 bg-base-content/[85%] text-base-100 text-xs rounded-sm p-3 ${className}`}
+      className={`w-full max-w-80 bg-[#333] text-gray-100 text-xs rounded-sm p-3 ${className}`}
     >
       {memoData.map((m, i) => (
         <span key={i}>

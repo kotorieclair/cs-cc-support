@@ -1,0 +1,6 @@
+.text-border {
+  text-shadow: rgb(255, 255, 255) 1px 1px 0, rgb(255, 255, 255) -1px -1px 0,
+    rgb(255, 255, 255) 1px 0px 0, rgb(255, 255, 255) -1px 0px 0,
+    rgb(255, 255, 255) 0px 1px 0, rgb(255, 255, 255) 0px -1px 0,
+    rgb(255, 255, 255) 1px -1px 0, rgb(255, 255, 255) -1px 1px 0;
+}
