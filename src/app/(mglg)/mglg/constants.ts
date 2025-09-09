@@ -1,3 +1,9 @@
+import {
+  CSDataLearned,
+  CSDataLearnedRow,
+  CSDataLearnedSkillType as CSDataLearnedDomain,
+} from '@/app/constants'
+
 export const MAGIC_TYPES = {
   SUMMON: '召喚',
   SPELL: '呪文',
@@ -133,12 +139,6 @@ export type CsDataBase = {
 } & {
   domain: CsDomainKey
 }
-export type CSDataLearnedRow = `row${number}`
-export type CSDataLearnedDomain = `name${number}`
-export type CSDataLearned = {
-  id: `skills.${CSDataLearnedRow}.${CSDataLearnedDomain}` | null
-  judge: null
-}
 export type CsDataLibrary = {
   [key: string]: string | null
 } & {
@@ -155,6 +155,7 @@ export type CsData = {
     skill: string
   }
 }
+
 export type Chara = {
   player: string
   covername: string

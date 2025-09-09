@@ -1,5 +1,6 @@
 import { CcCharacter } from '@kotorieclair/ktrecl-ui-tools'
 import { memo } from 'react'
+import './styles.css'
 
 type Props = {
   statusData: CcCharacter['status']
@@ -12,7 +13,7 @@ const StatusPreview = memo(function StatusPreview({
 }: Props) {
   return (
     <div
-      className={`w-full max-w-60 bg-base-content/[85%] rounded-sm p-3 h-[120px] ${className}`}
+      className={`w-full max-w-60 bg-[#333] rounded-sm p-3 h-[120px] ${className}`}
     >
       <div className="flex flex-wrap gap-[3px] max-w-[210px]">
         {statusData.map(
@@ -20,7 +21,7 @@ const StatusPreview = memo(function StatusPreview({
             i < 8 && (
               <div
                 key={i}
-                className="flex justify-between w-[96px] h-[16px] text-sm font-extrabold leading-none text-border p-[1px] bg-white/40 rounded-[1px]"
+                className="flex justify-between w-[96px] h-[16px] text-[#222] text-sm font-extrabold leading-none text-border p-[1px] bg-white/40 rounded-[1px]"
               >
                 <div className="truncate max-w-[60px]">{d.label}</div>
                 <div>

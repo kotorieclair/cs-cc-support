@@ -11,7 +11,7 @@ const PalettePreview = memo(function PalettePreview({
 }: Props) {
   return (
     <div
-      className={`w-full max-w-80 h-[300px] overflow-y-auto bg-base-content/[85%] text-base-100 text-base rounded-sm pt-2 ${className}`}
+      className={`w-full max-w-80 h-[300px] overflow-y-auto bg-[#333] text-gray-100 text-base rounded-sm pt-2 ${className}`}
     >
       {paletteData.map(
         (p, i) =>

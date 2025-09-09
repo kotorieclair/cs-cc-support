@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   TextInput,
@@ -9,11 +9,15 @@ import {
   useToastAlerts,
 } from '@kotorieclair/ktrecl-ui-tools'
 import {
+  CSDataLearnedRow,
+  CSDataLearnedSkillType,
+  SYSTEM_ID,
+} from '@/app/constants'
+import { fetchCsData } from '@/lib/util/fetchCsData'
+import {
   Innocent,
   Spooky,
   CsData,
-  CSDataLearnedSkillType,
-  CSDataLearnedRow,
   SKILLS_WITH_ROW_NAME,
   OUTPUT_TYPE,
   OutputType,
@@ -23,8 +27,6 @@ import { Step2Section } from './lib/components/Step2Section'
 import { Step3Section } from './lib/components/Step3Section'
 import { StepHeading } from './lib/components/StepHeading'
 import { cherrybomb } from './fonts'
-import { SYSTEM_ID } from '@/app/constants'
-import { fetchCsData } from '@/lib/util/fetchCsData'
 
 // 出力したいもの
 // イノセント：元気、眠気、MP、（メモ：才能、弱点、特技）
@@ -42,6 +44,8 @@ export default function PkbHome() {
 
   const { toastAlerts, addToastAlert } = useToastAlerts()
 
+  const backToStep2Ref = useRef<HTMLDivElement>(null)
+
   // 出力対象をイノセントに設定
   const handleSelectInnocent = useCallback(() => {
     setStep(3)
@@ -54,6 +58,16 @@ export default function PkbHome() {
     setOutputType(OUTPUT_TYPE.SPOOKY)
   }, [])
 
+  // ステップ3に移行したとき、ステップ2に戻るボタンのところまでスクロールする
+  useEffect(() => {
+    if (step === 3 && backToStep2Ref.current) {
+      const y = backToStep2Ref.current.getBoundingClientRect().y
+      console.log(y)
+      window.scrollBy({ top: y - 20 })
+    }
+  }, [step])
+
+  // ステップ2に戻る
   const handleClickBackToStep2 = useCallback(() => {
     setStep(2)
     setOutputType(OUTPUT_TYPE.NONE)
@@ -235,7 +249,10 @@ export default function PkbHome() {
         )}
 
         {step === 3 && (
-          <div className="flex-1 md:flex flex-col overflow-hidden animate-slide-in max-md:mt-3">
+          <div
+            className="flex-1 md:flex flex-col overflow-hidden animate-slide-in max-md:mt-3"
+            ref={backToStep2Ref}
+          >
             <div className="mb-1.5 md:mb-2">
               <button
                 onClick={handleClickBackToStep2}
