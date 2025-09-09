@@ -81,18 +81,21 @@ export default function StrtHome() {
     stepContainerRef.current
       ?.querySelector('[data-scroll-target="1"]')
       ?.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0 })
   }, [])
   const goToStep2 = useCallback(() => {
     setCurrentStep(2)
     stepContainerRef.current
       ?.querySelector('[data-scroll-target="2"]')
       ?.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0 })
   }, [])
   const goToStep3 = useCallback(() => {
     setCurrentStep(3)
     stepContainerRef.current
       ?.querySelector('[data-scroll-target="3"]')
       ?.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0 })
   }, [])
 
   // 消費コンディションをステータスに含めるかどうか切り替え
@@ -403,7 +406,7 @@ export default function StrtHome() {
         <StepSection
           step={1}
           title="キャラクターシートの読み込み"
-          className="flex-none px-8"
+          className="flex-none px-4 md:px-8"
         >
           <div className="text-center">
             <TextInput
@@ -441,13 +444,15 @@ export default function StrtHome() {
         <StepSection
           step={2}
           title="読み込んだ内容の確認"
-          className="flex-none px-8"
+          className={`flex-none px-4 md:px-8 ${
+            !isCharaDataAvailable || currentStep === 1 ? 'max-md:hidden' : ''
+          }`}
         >
-          <div className="badge badge-md badge-secondary mb-4">
+          <div className="badge badge-sm md:badge-md badge-secondary mb-4">
             キャラシデータ
           </div>
           <div className="text-xs">{chara.nameKana}</div>
-          <div className="text-xl">{chara.name}</div>
+          <div className="text-lg md:text-xl">{chara.name}</div>
           <div className="text-sm flex flex-wrap gap-x-3 gap-y-1 mt-3">
             <span className="flex gap-1 items-center">
               <span className="badge badge-xs badge-primary">年齢</span>
@@ -470,8 +475,8 @@ export default function StrtHome() {
               {chara.mastery}
             </span>
           </div>
-          <div className="flex gap-4 mt-7">
-            <div className="w-1/2 max-w-50">
+          <div className="flex gap-4 max-md:flex-col mt-7">
+            <div className="md:w-1/2 max-w-50">
               <div className="badge badge-sm badge-primary mb-1.5">楽器</div>
               <div>
                 <SelectInput
@@ -483,7 +488,7 @@ export default function StrtHome() {
                 />
               </div>
             </div>
-            <div className="w-1/2 max-w-50">
+            <div className="md:w-1/2 max-w-50">
               <div className="badge badge-sm badge-primary mb-1.5">作戦</div>
               <div>
                 <SelectInput
@@ -498,13 +503,13 @@ export default function StrtHome() {
           </div>
           <div className="flex justify-between mt-12">
             <button
-              className="btn btn-md btn-warning msi msi-rewind px-8"
+              className="btn btn-md btn-warning msi msi-rewind md:px-8"
               onClick={goToStep1}
             >
               戻る
             </button>
             <button
-              className="btn btn-md btn-success msi msi-forward flex-row-reverse px-8"
+              className="btn btn-md btn-success msi msi-forward flex-row-reverse md:px-8"
               onClick={goToStep3}
             >
               確認OK
@@ -514,9 +519,11 @@ export default function StrtHome() {
         <StepSection
           step={3}
           title="出力内容の確認・調整と出力"
-          className="flex-none px-8"
+          className={`flex-none px-4 md:px-8 ${
+            !isCharaDataAvailable || currentStep !== 3 ? 'max-md:hidden' : ''
+          }`}
         >
-          <div className="badge badge-md badge-secondary mb-3">
+          <div className="badge badge-sm md:badge-md badge-secondary mb-3">
             ステータスに含めるもの
           </div>
           <div className="flex gap-1 items-center">
@@ -542,7 +549,7 @@ export default function StrtHome() {
             </div>
           )}
           {isCharaDataAvailable && (
-            <ConfirmFormBoxContainer className="gap-y-6 mt-10">
+            <ConfirmFormBoxContainer className="gap-y-7 md:gap-y-6 mt-10">
               <ConfirmFormBox title="名前">
                 <TextInput
                   value={nameOverride}
@@ -580,7 +587,7 @@ export default function StrtHome() {
                   <StatusPreview statusData={statusOverride} />
                 </ConfirmFormBoxPreview>
               </ConfirmFormBox>
-              <ConfirmFormBox title="パラメータ" hasPreview>
+              <ConfirmFormBox title="パラメータ">
                 <StatusParamsField
                   type="params"
                   size="md"
@@ -605,13 +612,13 @@ export default function StrtHome() {
           )}
           <div className="flex justify-between mt-12">
             <button
-              className="btn btn-md btn-warning msi msi-rewind px-8"
+              className="btn btn-md btn-warning msi msi-rewind md:px-8"
               onClick={goToStep2}
             >
               戻る
             </button>
             <button
-              className="btn btn-md btn-info msi msi-output flex-row-reverse px-8"
+              className="btn btn-md btn-info msi msi-output flex-row-reverse md:px-8"
               onClick={handleClickOutput}
             >
               コマを出力

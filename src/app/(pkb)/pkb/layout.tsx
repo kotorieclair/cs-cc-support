@@ -43,7 +43,7 @@ export default function PkbLayout({
 }>) {
   return (
     <html lang="ja" data-theme="synthwave">
-      <body className="md:flex flex-col h-screen bg-pattern">
+      <body className="md:flex flex-col max-md:min-h-screen md:h-screen bg-pattern">
         <div className="flex-1 md:flex gap-6 w-full max-w-screen-xl md:h-screen md:min-h-[700px] md:max-h-[1000px] mx-auto p-3 md:p-6 md:pb-2">
           <header className="flex-none bg-box px-3 py-4 md:p-4 md:max-lgcol:w-[200px] min-lgcol:w-[280px]">
             <div>

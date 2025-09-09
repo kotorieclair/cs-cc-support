@@ -38,14 +38,16 @@ const ConfirmFormBox = memo(function ConfirmFormBox({
       >
         <div className="col-span-3 mb-2">
           <div className="flex justify-between items-end">
-            <div className="badge badge-md badge-primary">{title}</div>
+            <div className="badge badge-sm md:badge-md badge-primary">
+              {title}
+            </div>
             {hasPreview && (
               <div className="join md:hidden">
                 <button
                   className={`join-item btn btn-xs ${
                     !isPreview
-                      ? 'btn-primary shadow-none'
-                      : 'btn-soft btn-accent'
+                      ? 'btn-secondary shadow-none'
+                      : 'btn-soft text-neutral-content'
                   }`}
                   onClick={activateSettings}
                 >
@@ -54,8 +56,8 @@ const ConfirmFormBox = memo(function ConfirmFormBox({
                 <button
                   className={`join-item btn btn-xs ${
                     !isPreview
-                      ? 'btn-soft btn-accent'
-                      : 'btn-primary shadow-none'
+                      ? 'btn-soft text-neutral-content'
+                      : 'btn-secondary shadow-none'
                   }`}
                   onClick={activatePreview}
                 >

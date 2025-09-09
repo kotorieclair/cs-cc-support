@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   TextInput,
@@ -44,6 +44,8 @@ export default function PkbHome() {
 
   const { toastAlerts, addToastAlert } = useToastAlerts()
 
+  const backToStep2Ref = useRef<HTMLDivElement>(null)
+
   // 出力対象をイノセントに設定
   const handleSelectInnocent = useCallback(() => {
     setStep(3)
@@ -56,6 +58,16 @@ export default function PkbHome() {
     setOutputType(OUTPUT_TYPE.SPOOKY)
   }, [])
 
+  // ステップ3に移行したとき、ステップ2に戻るボタンのところまでスクロールする
+  useEffect(() => {
+    if (step === 3 && backToStep2Ref.current) {
+      const y = backToStep2Ref.current.getBoundingClientRect().y
+      console.log(y)
+      window.scrollBy({ top: y - 20 })
+    }
+  }, [step])
+
+  // ステップ2に戻る
   const handleClickBackToStep2 = useCallback(() => {
     setStep(2)
     setOutputType(OUTPUT_TYPE.NONE)
@@ -237,7 +249,10 @@ export default function PkbHome() {
         )}
 
         {step === 3 && (
-          <div className="flex-1 md:flex flex-col overflow-hidden animate-slide-in max-md:mt-3">
+          <div
+            className="flex-1 md:flex flex-col overflow-hidden animate-slide-in max-md:mt-3"
+            ref={backToStep2Ref}
+          >
             <div className="mb-1.5 md:mb-2">
               <button
                 onClick={handleClickBackToStep2}

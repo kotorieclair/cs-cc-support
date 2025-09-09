@@ -43,23 +43,25 @@ export default function StrtLayout({
 }>) {
   return (
     <html lang="ja" data-theme="darkstrt">
-      <body className="h-screen flex flex-col">
-        <header className="flex-none flex gap-20 items-center justify-center p-5 pb-6">
-          <div>
+      <body className="md:h-screen md:flex flex-col">
+        <header className="flex-none md:flex gap-20 items-center justify-center p-3 md:p-5 pb-6">
+          <div className="max-md:text-center">
             <h1
-              className={`text-accent text-3xl text-left leading-none ${bungeeOutline.className}`}
+              className={`text-accent text-2xl md:text-3xl leading-none ${bungeeOutline.className}`}
             >
-              STRATOSHOUT
-              <br /> CC Support
+              <span className="md:block">STRATOSHOUT </span>
+              <span className="inline-block md:block">CC Support</span>
             </h1>
-            <p className="text-xs mt-1">
+            <p className="text-xs mt-2 md:mt-1">
               ストラトシャウトのキャラクターシートから
               <br />
               ココフォリア用コマを出力するツール
             </p>
           </div>
-          <div>
-            <p className="text-sm">最終更新日：XX/XX/XX</p>
+          <div className="max-md:text-center">
+            <p className="text-xs md:text-sm max-md:mt-2">
+              最終更新日：25/09/10
+            </p>
             <p className="text-xs">ツール公開開始</p>
           </div>
         </header>
