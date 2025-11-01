@@ -60,9 +60,9 @@ export default function StrtLayout({
           </div>
           <div className="max-md:text-center">
             <p className="text-xs md:text-sm max-md:mt-2">
-              最終更新日：25/09/10
+              最終更新日：25/11/01
             </p>
-            <p className="text-xs">ツール公開開始</p>
+            <p className="text-xs">チャットパレット出力内容更新</p>
           </div>
         </header>
 
