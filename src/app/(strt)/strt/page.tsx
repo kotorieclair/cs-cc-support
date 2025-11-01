@@ -168,9 +168,9 @@ export default function StrtHome() {
   // ステータスの出力用データを作成
   const statusOutputData = useMemo<CcCharacter['status']>(
     () => [
-      { label: LABELS.BASE_SKILL, value: chara.mastery || 0, max: 0 },
       { label: 'コンディション', value: 0, max: 0 },
       { label: 'ディスコード', value: 0, max: 0 },
+      { label: LABELS.BASE_SKILL, value: chara.mastery || 0, max: 0 },
       ...(useUsedCondition
         ? [{ label: LABELS.USED_COND, value: 0, max: 0 }]
         : []),
@@ -223,14 +223,14 @@ export default function StrtHome() {
 
     return [
       '### 判定 ###',
-      ...(chara.skills || []).map((s) => `2D6>=5 （判定：${s}）`),
+      ...(chara.skills || []).map((s) => `2D6+${usedCond}>=5 （判定：${s}）`),
       ' ',
-      '### 攻撃 ###',
+      '### 攻撃ダメージ ###',
       `${NORMAL_DMG} 通常攻撃`,
       `${PHRASE_DMG} フレーズ攻撃`,
       `${phraseBurst}`,
       ' ',
-      '### 回復 ###',
+      '### コンディション回復 ###',
       '1D6 通常回復',
       '2D6 フレーズ回復',
       ' ',
