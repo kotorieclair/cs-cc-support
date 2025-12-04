@@ -28,6 +28,13 @@ export const metadata: Metadata = {
       notranslate: true,
     },
   },
+  openGraph: {
+    title: 'STRATOSHOUT CC Support',
+    description: 'ストラトシャウトのココフォリア用キャラコマ作成サポートツール',
+    url: 'https://cs-cc-support.vercel.app/strt',
+    locale: 'ja_JP',
+    type: 'website',
+  },
 }
 
 export const viewport: Viewport = {

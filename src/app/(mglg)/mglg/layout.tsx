@@ -27,6 +27,13 @@ export const metadata: Metadata = {
       notranslate: true,
     },
   },
+  openGraph: {
+    title: 'MagicaLogia CC Support',
+    description: 'マギカロギアのココフォリア用キャラコマ作成サポートツール',
+    url: 'https://cs-cc-support.vercel.app/mglg',
+    locale: 'ja_JP',
+    type: 'website',
+  },
 }
 
 export const viewport: Viewport = {
