@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'STRATOSHOUT CC Support',
+    description: 'ストラトシャウトのココフォリア用キャラコマ作成サポートツール',
+  },
 }
 
 export const viewport: Viewport = {

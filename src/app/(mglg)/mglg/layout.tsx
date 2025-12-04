@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MagicaLogia CC Support',
+    description: 'マギカロギアのココフォリア用キャラコマ作成サポートツール',
+  },
 }
 
 export const viewport: Viewport = {

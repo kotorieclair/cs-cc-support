@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PKB! CC Support',
+    description: 'ピーカーブーのココフォリア用キャラコマ作成サポートツール',
+  },
 }
 
 export const viewport: Viewport = {
