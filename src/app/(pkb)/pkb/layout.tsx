@@ -28,6 +28,18 @@ export const metadata: Metadata = {
       notranslate: true,
     },
   },
+  openGraph: {
+    title: 'PKB! CC Support',
+    description: 'ピーカーブーのココフォリア用キャラコマ作成サポートツール',
+    url: 'https://cs-cc-support.vercel.app/pkb',
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PKB! CC Support',
+    description: 'ピーカーブーのココフォリア用キャラコマ作成サポートツール',
+  },
 }
 
 export const viewport: Viewport = {
@@ -58,7 +70,7 @@ export default function PkbLayout({
                     CC Support
                   </span>
                 </div>
-                <div className="absolute z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-85 size-[100px] md:max-lgcol:size-[130px] min-lgcol:size-[190px]">
+                <div className="absolute z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[100px] md:max-lgcol:size-[130px] min-lgcol:size-[190px]">
                   <Image
                     src="/pkb/header_star.svg"
                     width={190}

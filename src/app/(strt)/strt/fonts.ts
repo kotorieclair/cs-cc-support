@@ -1,12 +1,6 @@
-import { Bungee_Outline, Dela_Gothic_One, M_PLUS_1p } from 'next/font/google'
+import { Bungee_Outline, M_PLUS_1p } from 'next/font/google'
 
 export const bungeeOutline = Bungee_Outline({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-export const delaGothicOne = Dela_Gothic_One({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
