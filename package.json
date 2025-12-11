@@ -1,6 +1,6 @@
 {
   "name": "cs-cc-support",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3002",
@@ -11,7 +11,7 @@
     "ktrecl": "npm install @kotorieclair/ktrecl-ui-tools@latest"
   },
   "dependencies": {
-    "@kotorieclair/ktrecl-ui-tools": "^0.1.4",
+    "@kotorieclair/ktrecl-ui-tools": "^0.1.5",
     "next": "^15.3.6",
     "react": "19.1",
     "react-dom": "19.1"
