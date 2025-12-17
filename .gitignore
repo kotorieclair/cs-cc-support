@@ -49,3 +49,4 @@ next-env.d.ts
 # sample data
 /**/sample_data
 /**/api/og
+/**/api/icon
