@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { loadGoogleFont } from '@/lib/loadGoogleFont'
 
 export const alt = 'PKB! CC Support'
 export const size = {
@@ -7,24 +8,6 @@ export const size = {
 }
 
 export const contentType = 'image/png'
-
-// https://vercel.com/kb/guide/using-custom-font
-async function loadGoogleFont(font: string, text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(
-    text
-  )}`
-  const css = await (await fetch(url)).text()
-  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
-
-  if (resource) {
-    const response = await fetch(resource[1])
-    if (response.status == 200) {
-      return await response.arrayBuffer()
-    }
-  }
-
-  throw new Error('failed to load font data')
-}
 
 export default async function Image() {
   const bgSvg = encodeURIComponent(
